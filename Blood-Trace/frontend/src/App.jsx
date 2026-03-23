@@ -1,14 +1,22 @@
 import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Layout from './assets/Pages/Layout'
+import Landing from './assets/Pages/Landing'
+import Dashboard from './assets/Pages/Dashboard'
+
 
 function App() {
   return (
     <>
-      <div className='text-10xl font-bold flex justify-center'>Blood Trace Project</div>
-      <div className="min-h-screen flex items-center justify-center">
-        <h1 className="text-2xl font-bold text-red-600">
-          Tailwind is Working
-        </h1>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+
+            <Route index element={<Landing />} />
+            <Route path="dashboard" element={<Dashboard />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
