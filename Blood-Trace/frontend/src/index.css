@@ -8,7 +8,7 @@
     --color-text-main:#000000;
     --color-footer-text: #FFFFFF;
     --color-footer-main: #101726;
-    --color-dashboard-main: #C8C8C8;
+    --color-dashboard-main: #8f8e8e;
 }
 
 @layer base{
@@ -20,4 +20,10 @@
         padding-top: 55px;
         
     }
+}
+
+.leaflet-container{
+    height: 100%;
+    width: 100%;
+    border-radius: 30px;
 }

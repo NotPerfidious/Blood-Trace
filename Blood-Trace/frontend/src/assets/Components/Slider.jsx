@@ -1,7 +1,6 @@
-import { useState } from 'react';
 
-const Slider = () => {
-    const [value, setValue] = useState(15);
+
+const Slider = ({value, setValue}) => {
     const min = 1;
     const max = 50;
 

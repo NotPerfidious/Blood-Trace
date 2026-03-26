@@ -10,7 +10,7 @@ function Landing() {
 
 
 
-                <div className="flex flex-row justify-center items-center gap-3 text-xs bg-red-300 text-blood-primary p-1 rounded-3xl pr-2">
+                <div className="flex flex-row justify-center items-center gap-3 mt-3 text-xs bg-red-300 text-blood-primary p-1 rounded-3xl pr-2">
 
                     <Icon
                         icon="material-symbols-light:bolt-outline-rounded"
