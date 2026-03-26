@@ -9,16 +9,19 @@ import { useState } from "react";
 // const receipentBloodType = 'A+';
 
 
-
-
-
-
 function Dashboard() {
-
 
     const [searchRadius, setSearchRadius] = useState(10);
     const [showDonor, setShowDonor] = useState(undefined);
     const [receipentBloodType, setReceipentBloodType] = useState(undefined)
+
+    const latitude = 31.5204
+    const longitude = 74.3587
+
+    receipentBloodType && navigator.geolocation.getCurrentPosition((pos) => {
+        latitude = pos.coords.latitude
+        longitude = pos.coords.longitude
+    })
 
 
     const compatibleDonors = receipentBloodType && bloodDonors.filter(donor => bloodCompatibility[receipentBloodType].includes(donor.bloodType))
@@ -172,7 +175,7 @@ function Dashboard() {
 
             <div className=" flex-1 py-2  saturate-50 -[.2]">
 
-                <MapContainer center={[31.5204, 74.3587]} zoom={10}>
+                <MapContainer center={[latitude, longitude]} zoom={10}>
 
                     <TileLayer
                         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -220,15 +223,15 @@ function Dashboard() {
 
                             <div className="flex flex-row gap-2 items-center">
 
-                                {showDonor.isAvailable && (
-                                    <div className={`${(showDonor.bloodType == receipentBloodType ? 'bg-green-200 text-green-800 border-green-400' : 'bg-blue-200 text-blue-800 border-blue-400')} px-1.5 rounded-lg border inline-flex flex-row items-center`}>
-                                        <div className="">
-                                            <Icon icon="mingcute:heartbeat-line" className=" h-4 w-4" />
-                                        </div>
-                                        <div className="text-sm">
-                                            Available Now
-                                        </div>
-                                    </div>)}
+
+                                <div className={`${showDonor.isAvailable ? (showDonor.bloodType == receipentBloodType ? 'bg-green-200 text-green-800 border-green-400' : 'bg-blue-200 text-blue-800 border-blue-400') : 'bg-red-200 text-red-800 border-red-400'} px-1.5 rounded-lg border inline-flex flex-row items-center`}>
+                                    <div className="">
+                                        <Icon icon="mingcute:heartbeat-line" className=" h-4 w-4" />
+                                    </div>
+                                    <div className="text-sm">
+                                        {showDonor.isAvailable? 'Available Now':'Not Available'}
+                                    </div>
+                                </div>
 
                                 {(showDonor.bloodType == receipentBloodType) && (
                                     <div className="bg-green-200 text-green-800 px-1.5 rounded-lg border border-green-400">
