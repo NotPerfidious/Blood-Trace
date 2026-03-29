@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './assets/Pages/Layout'
 import Landing from './assets/Pages/Landing'
 import Dashboard from './assets/Pages/Dashboard'
+import RegisterDonor from './assets/Pages/RegisterDonor'
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
 
             <Route index element={<Landing />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="register-donor" element={<RegisterDonor />} />
           </Route>
         </Routes>
       </BrowserRouter>

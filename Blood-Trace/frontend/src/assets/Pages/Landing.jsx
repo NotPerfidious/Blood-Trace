@@ -4,21 +4,21 @@ import { Link } from "react-router-dom";
 function Landing() {
     return (
 
-        <main className="">
+        <div className="">
 
             <div className="flex flex-col gap-5 pb-5 items-center">
 
 
 
-                <div className="flex flex-row justify-center items-center gap-3 mt-3 text-xs bg-red-300 text-blood-primary p-1 rounded-3xl pr-2">
+                <div className="flex flex-row justify-center items-center gap-3 mt-5 text-xs bg-red-300 text-blood-primary p-1 rounded-3xl pr-2">
 
                     <Icon
                         icon="material-symbols-light:bolt-outline-rounded"
-                        className="w-5.5 h-5.5"
+                        className="w-6 h-6"
                     >
 
                     </Icon>
-                    <div>
+                    <div className="text-sm">
                         Emergency Response Technology
                     </div>
 
@@ -210,7 +210,7 @@ function Landing() {
 
             </div>
 
-        </main>
+        </div>
 
     )
 }

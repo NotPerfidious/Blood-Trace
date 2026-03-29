@@ -1,6 +1,7 @@
 import footerLogo from '../Images/footer-logo.png'
 import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'
+import { NavLink } from 'react-router-dom'
 
 function Footer() {
     return (
@@ -23,8 +24,14 @@ function Footer() {
 
                 <div className='flex flex-col  w-60 gap-2'>
                     <div className='flex items-center'>Quick Links</div>
-                    <div className='text-[0.87rem] font-light text-gray-400'>Find donors</div>
-                    <div className='text-[0.87rem] font-light text-gray-400'>Register as Donors</div>
+                    <NavLink to="/dashboard" className={({isActive})=> isActive?'text-blood-primary':' text-gray-400'}>
+                        <div className='text-[0.87rem] font-light'>Find donors</div>
+                    </NavLink>
+
+                    <NavLink to="/register-donor" className={({isActive})=> isActive?'text-blood-primary':' text-gray-400'}>
+                        <div className='text-[0.87rem] font-light'>Register as Donors</div>
+                    </NavLink>
+
                     <div className='text-[0.87rem] font-light text-gray-400'>About us</div>
                     <div className='text-[0.87rem] font-light text-gray-400'>Help & FAQ</div>
                 </div>
@@ -66,7 +73,7 @@ function Footer() {
 
             </div>
 
-            <div className='h-[0.5px] w-full mt-10 mb-5  bg-gray-800'/>
+            <div className='h-[0.5px] w-full mt-10 mb-5  bg-gray-800' />
 
             <div className='flex flex-row justify-between text-xs text-gray-400 mb-3 font-light'>
                 <div className=''>
@@ -74,7 +81,7 @@ function Footer() {
                 </div>
 
                 <div className='flex flex-row items-center'>
-                   made with {' '}<Icon icon="mdi:heart" className='w-4 h-4 text-blood-primary mx-3px'/> {' '} for saving lives
+                    made with {' '}<Icon icon="mdi:heart" className='w-4 h-4 text-blood-primary mx-3px' /> {' '} for saving lives
                 </div>
             </div>
 

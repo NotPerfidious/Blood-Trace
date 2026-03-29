@@ -113,7 +113,7 @@ function Dashboard() {
 
 
     return (
-        <main className="relative">
+        <div className="relative">
             <div className="bg-dashboard-main p-4 pb-8 pr-35 flex flex-row gap-3.5">
 
 
@@ -492,7 +492,7 @@ function Dashboard() {
                         </div>
 
                         <div className=" m-6 p-3 text-[0.9rem] mt-8 justify-center border border-yellow-400 bg-yellow-50 rounded-xl">
-                            <span className="font-semibold">Important:</span> This will send push notifications, SMS, and in-app alerts to all 2 compatible donors in your area. Please use this only for genuine emergencies
+                            <span className="font-semibold">Important:</span> This will send push notifications, SMS, and in-app alerts to all {compatibleDonors ? compatibleDonors.length : 0} compatible donors in your area. Please use this only for genuine emergencies
                         </div>
 
 
@@ -568,7 +568,7 @@ function Dashboard() {
 
 
 
-        </main>
+        </div>
     )
 
 }

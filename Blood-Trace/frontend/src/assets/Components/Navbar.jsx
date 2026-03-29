@@ -24,18 +24,20 @@ function Navbar() {
 
             <div className='flex gap-6 justify-center items-center'>
 
-                <NavLink className={({ isActive }) => `${isActive ? 'bg-blood-primary text-white p-1 px-2 rounded-sm' : ""}`} to="/dashboard">
+                <NavLink to="/dashboard" className={({ isActive }) => `${isActive ? 'bg-blood-primary text-white p-1 px-2 rounded-sm' : ""}`} >
                     <div className={`text-sm font-medium `}>Find Donors</div>
                 </NavLink>
 
+                <NavLink to="/register-donor" className={({isActive})=>`${isActive?'bg-blood-primary text-white p-1 px-2 rounded-sm':''}`} >
+                    <div className='flex justify-center items-center gap-1.5'>
+                        <Icon
+                            icon='mdi:register-outline'
+                            className='mr-1 w-5.5 h-5.5'
+                        />
+                        <div className='text-sm font-medium'>Register</div>
+                    </div>
+                </NavLink>
 
-                <div className='flex justify-center items-center gap-1.5'>
-                    <Icon
-                        icon='mdi:register-outline'
-                        className='text-black mr-1 w-5.5 h-5.5'
-                    ></Icon>
-                    <div className='text-sm font-medium'>Register</div>
-                </div>
 
                 <div className='flex justify-center items-center gap-1.5'>
                     <Icon
