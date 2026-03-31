@@ -1,9 +1,9 @@
 import { Icon } from "@iconify/react";
-import Slider from "../Components/Slider";
+import Slider from "../components/Slider";
 import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
-import createDonorMarker from "../Utils/createDonorMarker";
-import { bloodCompatibility } from "../Utils/data";
-import { bloodDonors, bloodTypes } from "../Utils/data";
+import createDonorMarker from "../utils/createDonorMarker";
+import { bloodCompatibility } from "../utils/data";
+import { bloodDonors, bloodTypes } from "../utils/data";
 import { useState, useEffect } from "react";
 import L from "leaflet";
 

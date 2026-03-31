@@ -1,9 +1,9 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Layout from './assets/Pages/Layout'
-import Landing from './assets/Pages/Landing'
-import Dashboard from './assets/Pages/Dashboard'
-import RegisterDonor from './assets/Pages/RegisterDonor'
+import Layout from './pages/Layout'
+import Landing from './pages/Landing'
+import Dashboard from './pages/Dashboard'
+import RegisterDonor from './pages/RegisterDonor'
 
 
 function App() {

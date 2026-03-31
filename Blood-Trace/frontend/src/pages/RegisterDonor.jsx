@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
-import { bloodTypes } from "../Utils/data";
+import { bloodTypes } from "../utils/data";
 import { useEffect, useRef, useState } from "react";
-import ToggleSwitch from "../Components/ToggleSwitch";
+import ToggleSwitch from "../components/ToggleSwitch";
 
 
 function RegisterDonor() {
@@ -189,7 +189,7 @@ function RegisterDonor() {
                         </div>
 
                         <div className="">
-                            <button onClick={handleSubmit} className="bg-blood-primary active:scale-95 cursor-pointer w-full mt-7 p-3 rounded-2xl">
+                            <button type="submit" className="bg-blood-primary active:scale-95 cursor-pointer w-full mt-7 p-3 rounded-2xl">
                                 <div className="flex items-center justify-center gap-3">
                                     <div><Icon icon="solar:user-plus-rounded-linear" className="text-white w-9 h-9" /></div>
 

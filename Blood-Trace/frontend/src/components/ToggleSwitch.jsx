@@ -5,6 +5,7 @@ const ToggleSwitch = ({ isOn, setIsOn }) => {
     return (
         <button
             onClick={() => setIsOn(!isOn)}
+            type='button'
             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 focus:outline-none ${isOn ? 'bg-black' : 'bg-gray-500'
                 }`}
         >

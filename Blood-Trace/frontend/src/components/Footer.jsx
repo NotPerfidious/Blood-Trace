@@ -1,4 +1,4 @@
-import footerLogo from '../Images/footer-logo.png'
+import footerLogo from '../assets/images/footer-logo.png'
 import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'
 import { NavLink } from 'react-router-dom'

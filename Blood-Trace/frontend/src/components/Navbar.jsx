@@ -1,6 +1,6 @@
 import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'
-import logo from '../Images/logo.png'
+import logo from '../assets/images/logo.png'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 
