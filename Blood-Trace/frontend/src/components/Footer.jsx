@@ -34,14 +34,17 @@ function Footer() {
                     <NavLink to="/about" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
                         <div className='text-[0.87rem] font-light'>About Us</div>
                     </NavLink>
+                   
 
                     <div className='text-[0.87rem] font-light text-gray-400'>Help & FAQ</div>
                 </div>
 
                 <div className='flex flex-col w-60 gap-2'>
                     <div className='flex items-center'>Resources</div>
+                    <NavLink to="/notifications" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+                        <div className='text-[0.87rem] font-light'>Notifications</div>
+                    </NavLink>
                     <div className='text-[0.87rem] font-light text-gray-400'>Accessibility</div>
-                    <div className='text-[0.87rem] font-light text-gray-400'>Admin Dashboard</div>
                     <div className='text-[0.87rem] font-light text-gray-400'>My Profile</div>
                     <div className='text-[0.87rem] font-light text-gray-400'>Admin Dashboard</div>
                 </div>
