@@ -79,12 +79,16 @@ function Navbar() {
                 </NavLink>
 
                 <div className='flex gap-2.5'>
-                    <div className='flex justify-center items-center gap-1.5'>
-                        <Icon
-                            icon='meteor-icons:gear'
-                            className='text-black mr-1 w-5.5 h-5.5'
-                        />
-                    </div>
+                    <NavLink to="/accessibility" className={({ isActive }) => `${isActive ? 'bg-blood-primary text-white p-1 px-2 rounded-sm' : ''}`} >
+                        {({ isActive }) => (
+                            <div className='flex justify-center items-center gap-1.5 p-1'>
+                                <Icon
+                                    icon='meteor-icons:gear'
+                                    className={`mr-1 w-5.5 h-5.5 ${isActive ? 'text-white' : 'text-black'}`}
+                                />
+                            </div>
+                        )}
+                    </NavLink>
 
                     <div className='flex justify-center items-center gap-1.5'>
                         <Icon

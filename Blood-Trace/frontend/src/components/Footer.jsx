@@ -46,7 +46,9 @@ function Footer() {
                     <NavLink to="/notifications" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
                         <div className='text-[0.87rem] font-light'>Notifications</div>
                     </NavLink>
-                    <div className='text-[0.87rem] font-light text-gray-400'>Accessibility</div>
+                    <NavLink to="/accessibility" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+                        <div className='text-[0.87rem] font-light'>Accessibility</div>
+                    </NavLink>
                     <div className='text-[0.87rem] font-light text-gray-400'>My Profile</div>
                     <div className='text-[0.87rem] font-light text-gray-400'>Admin Dashboard</div>
                 </div>
