@@ -9,6 +9,7 @@ import About from './pages/About'
 import Notifications from './pages/Notifications'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import AdminDashboard from './pages/AdminDashboard'
 import Help from './pages/Help'
 import AccessibilitySettings from './pages/AccessibilitySettings'
 import Profile from './pages/Profile'
@@ -47,6 +48,7 @@ function App() {
             <Route path="help" element={<Help />} />
             <Route path="accessibility" element={<AccessibilitySettings />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="admin" element={<AdminDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

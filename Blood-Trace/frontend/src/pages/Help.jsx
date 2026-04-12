@@ -84,7 +84,7 @@ function FAQItem({ question, answer, isOpen, onToggle }) {
                 </span>
                 <Icon
                     icon={isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'}
-                    className={`w-5 h-5 flex-shrink-0 ml-4 transition-colors duration-200 ${isOpen ? 'text-blood-primary' : 'text-gray-400'}`}
+                    className={`w-5 h-5 shrink-0 ml-4 transition-colors duration-200 ${isOpen ? 'text-blood-primary' : 'text-gray-400'}`}
                 />
             </button>
             <div
@@ -160,7 +160,7 @@ function Help() {
                     <div className="flex flex-col gap-5">
                         {quickStartSteps.map((step) => (
                             <div key={step.number} className="flex items-start gap-4">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${step.color}`}>
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${step.color}`}>
                                     <span className="font-bold text-[0.9rem]">{step.number}</span>
                                 </div>
 
@@ -175,7 +175,7 @@ function Help() {
 
                                 <Icon
                                     icon={step.icon}
-                                    className={`w-6 h-6 flex-shrink-0 mt-1 ${step.color.split(' ')[1]}`}
+                                    className={`w-6 h-6 shrink-0 mt-1 ${step.color.split(' ')[1]}`}
                                 />
                             </div>
                         ))}

@@ -16,8 +16,8 @@ function Footer() {
 
                     <div className='text-[0.85rem] text-gray-400 mt-1 font-light'>
                         A visual blood donor locator system designed to
-                        improve emergency healthcare response
-                        through thoughtful UI/UX design.
+                        improve emergency healthcare response through
+                        thoughtful UI/UX design.
                     </div>
 
                 </div>
@@ -52,7 +52,9 @@ function Footer() {
                     <NavLink to="/profile" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
                         <div className='text-[0.87rem] font-light'>My Profile</div>
                     </NavLink>
-                    <div className='text-[0.87rem] font-light text-gray-400'>Admin Dashboard</div>
+                    <NavLink to="/admin" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+                        <div className='text-[0.87rem] font-light'>Admin Dashboard</div>
+                    </NavLink>
                 </div>
 
                 <div className='flex flex-col w-60 gap-2'>
@@ -78,15 +80,22 @@ function Footer() {
                             icon="akar-icons:location"
                             className="w-4 h-4 text-blood-primary"
                         />
-                        <div>Lahore Pakistan</div>
+                        <div>Lahore, Pakistan</div>
+                    </div>
+                    <div className='text-[0.87rem] font-light text-gray-400 flex flex-row gap-1 items-center'>
+                        <Icon
+                            icon="mdi:clock-outline"
+                            className="w-4 h-4 text-blood-primary"
+                        />
+                        <div>24/7 Emergency Support</div>
                     </div>
                 </div>
 
             </div>
 
-            <div className='h-[0.5px] w-full mt-10 mb-5  bg-gray-800' />
+            <div className='h-[0.5px] w-full mt-4 mb-4  bg-gray-800' />
 
-            <div className='flex flex-row justify-between text-xs text-gray-400 mb-3 font-light'>
+            <div className='flex flex-row justify-between text-xs text-gray-400 mb-1 font-light'>
                 <div className=''>
                     © 2026 Blood-Trace. A visual blood locator
                 </div>

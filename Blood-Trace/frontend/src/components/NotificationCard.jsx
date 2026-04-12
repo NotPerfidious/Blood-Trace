@@ -5,6 +5,7 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
     const [responding, isResponding] = useState(false); // controls popup 
     const [success, isSuccess] = useState(false); // controls success popup
     const [message, setMessage] = useState("");
+    const [hasResponded, setHasResponded] = useState(false); // hides respond button
 
     const getIconInfo = (type) => {
         switch (type) {
@@ -26,6 +27,10 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
     const handle_sent = () => {
         isResponding(false);
         isSuccess(true);
+        setHasResponded(true);
+        if (notif.unread) {
+            markAsRead(notif.id);
+        }
     };
 
     return (
@@ -54,9 +59,9 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
                             <span>{notif.time}</span>
                         </div>
 
-                        {(notif.response || notif.unread) && (
+                        {((notif.response && !hasResponded) || notif.unread) && (
                             <div className="flex items-center gap-4 justify-between w-full md:justify-start md:gap-6 mt-2">
-                                {notif.response && (
+                                {notif.response && !hasResponded && (
                                     <button
                                         onClick={() => { setMessage(""); isResponding(true); }}
                                         className="bg-[#D92D20] text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
