@@ -9,7 +9,7 @@ function Navbar() {
     const [activeTab, setActiveTab] = useState('')
     return (
 
-        <nav className="navbar-container z-999 fixed left-0 right-0 top-0 flex justify-between items-center p-[0.25] bg-white shadow-sm border-b border-gray-100">
+        <nav className="navbar-container z-9999 fixed left-0 right-0 top-0 flex justify-between items-center p-[0.25] bg-white shadow-sm border-b border-gray-100">
 
             <NavLink to="/" className='cursor-pointer'>
                 <div className='flex flex-row justify-center items-center'>

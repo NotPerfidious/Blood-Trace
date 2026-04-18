@@ -2,20 +2,13 @@ const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 const Schema = mongoose.Schema;
 const jwt = require("jsonwebtoken");
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
-dotenv.config();
+// dotenv.config();
 
 
 const userSchema = new Schema(
     {
-        name: {
-            type: String,
-            required: true,
-            minLength: 1,
-            trim: true
-        },
-
         email: {
             type: String,
             required: true,

@@ -1,24 +1,27 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-const { replaceOne } = require('../models/user.model');
 
-dotenv.config();
 
-const authenticateToken = (req, res, next) => {
-    const token = req.header["Authorization"]?.replace("Bearer ", "");
+const authenticateUser = (req, res, next) => {
 
-    if (!token) return res.status(401).json({
-        message: "Unauthorized"
-    });
+    const accessToken = req.signedCookies.accessToken;
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
-        if (error) return res.status(403).json({
-            message: "Unauthorized",
-            user: user
-        });
+    if (!accessToken) {
+        return res.status(401).json({
+            message: 'Not authorized, no token'
+        })
+    }
+
+    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+        if (error) {
+            return res.status(401).json({
+                message: 'Token is not valid'
+            })
+        }
+
         req.user = user;
-        next();
+
+        return next();
     })
 }
 
-module.exports = authenticateToken;
+module.exports = authenticateUser;

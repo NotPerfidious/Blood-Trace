@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import Layout from './pages/Layout'
 import Landing from './pages/Landing'
 import Dashboard from './pages/Dashboard'
@@ -13,8 +14,21 @@ import AdminDashboard from './pages/AdminDashboard'
 import Help from './pages/Help'
 import AccessibilitySettings from './pages/AccessibilitySettings'
 import Profile from './pages/Profile'
+import checkAuth from './features/auth/checkAuth'
+import LoadingPulse from './components/LoadingPulse'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
+
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    console.log('App mounted')
+    dispatch(checkAuth())
+  }, [dispatch])
+
+
   useEffect(() => {
     // Apply accessibility settings on load
     const root = document.documentElement;
@@ -32,6 +46,10 @@ function App() {
     if (screenReader) root.classList.add('screen-reader-opt');
   }, []);
 
+  if (loading) {
+    return <LoadingPulse />;
+  }
+
   return (
     <>
       <BrowserRouter>
@@ -39,16 +57,24 @@ function App() {
           <Route path="/" element={<Layout />}>
 
             <Route index element={<Landing />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="register-donor" element={<RegisterDonor />} />
-            <Route path="about" element={<About />} />
-            <Route path="notifications" element={<Notifications />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-            <Route path="help" element={<Help />} />
-            <Route path="accessibility" element={<AccessibilitySettings />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="admin" element={<AdminDashboard />} />
+
+
+            <Route element={<ProtectedRoute/>}>
+
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="register-donor" element={<RegisterDonor />} />
+              <Route path="about" element={<About />} />
+              <Route path="notifications" element={<Notifications />} />
+
+              <Route path="help" element={<Help />} />
+              <Route path="accessibility" element={<AccessibilitySettings />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="admin" element={<AdminDashboard />} />
+
+            </Route>
+
           </Route>
         </Routes>
       </BrowserRouter>

@@ -4,9 +4,9 @@ const User = require('../models/user.model');
 const registerUser = async (req, res) => {
     try {
 
-        const { name, email, password } = req.body;
+        const { email, password } = req.body;
 
-        if (!name || !email || !password) return res.status(400).json({
+        if (!email || !password) return res.status(400).json({
             message: "All fields are required"
         });
 
@@ -17,19 +17,26 @@ const registerUser = async (req, res) => {
         });
 
         const user = await User.create({
-            name: name,
             email: email.toLowerCase(),
             password: password
         })
 
+        const accessToken = user.getAccessToken();
+
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            signed: true,
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        })
+
         return res.status(201).json({
-            message: "User registered",
+            message: "Registration successful",
             user: {
                 id: user._id,
-                name: user.name,
                 email: user.email
             },
-            accessToken: user.getAccessToken()
         });
 
 
@@ -64,17 +71,29 @@ const loginUser = async (req, res) => {
             message: "Invalid credentials"
         })
 
+        const accessToken = user.getAccessToken();
+
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            signed: true,
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        })
+
         return res.status(200).json({
-            message: "Logged In",
+            message: "Login successful",
             user: {
                 id: user._id,
                 name: user.name,
                 email: user.email
             },
-            accessToken: user.getAccessToken()
         })
 
     } catch (error) {
+
+        console.log(`[ERROR at login]: ${error}`)
+
         return res.status(500).json({
             message: "Internal server error"
         });

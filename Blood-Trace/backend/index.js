@@ -1,8 +1,10 @@
 const dotenv = require('dotenv');
+dotenv.config();
+
 const connectDB = require('./src/config/database')
 const app = require('./src/app')
 
-dotenv.config();
+
 
 const startServer = async () => {
     try {

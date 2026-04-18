@@ -107,7 +107,7 @@ function Help() {
     }
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-[#f9f9f9]">
 
             {/* Hero Section */}
             <div className="flex flex-col items-center py-10 gap-3">

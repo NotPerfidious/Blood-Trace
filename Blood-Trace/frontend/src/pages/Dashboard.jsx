@@ -113,8 +113,8 @@ function Dashboard() {
 
 
     return (
-        <div className="relative">
-            <div className="bg-dashboard-main p-4 pb-8 pr-35 flex flex-row gap-3.5">
+        <>
+            <div className="bg-dashboard-main p-4 pb-8 pr-35 min-h-full flex flex-row gap-3.5 flex-1">
 
 
 
@@ -135,9 +135,9 @@ function Dashboard() {
                 <div>
                     <div className="bg-white relative p-3 pb-33 rounded-lg">
 
-                        <button onClick={() => { setReceipentBloodType(undefined); setShowDonor(undefined); }} className="cursor-pointer absolute top-3 right-3">
+                        {receipentBloodType && (<button onClick={() => { setReceipentBloodType(undefined); setShowDonor(undefined); }} className="cursor-pointer absolute top-3 right-3">
                             <Icon icon="maki:cross" className="text-gray-600 h-3 w-3" />
-                        </button>
+                        </button>)}
 
                         <div className='flex flex-row gap-6 items-center'>
                             <div>
@@ -198,56 +198,6 @@ function Dashboard() {
                             <div className="text-gray-700 mt-1 text-[0.7rem] font-medium">Select required blood type</div>
                         </div>
 
-
-                        <div className="absolute border  bg-white z-1001 -right-52 bottom-0 flex flex-col gap-2 rounded-xl p-4">
-
-                            <div className="text-gray-700 text-[0.8rem] font-semibold">Donor status</div>
-
-                            <div className="flex flex-row items-center gap-3">
-                                <div>
-                                    <Icon icon="ri:circle-fill" className="h-4 w-4 text-green-600" />
-                                </div>
-                                <div className="text-[0.8rem] text-gray-600">
-                                    Exact Match & Available
-                                </div>
-                            </div>
-
-                            <div className="flex flex-row items-center gap-3">
-                                <div>
-                                    <Icon icon="ri:circle-fill" className="h-4 w-4 text-blue-600" />
-                                </div>
-                                <div className="text-[0.8rem] text-gray-600">
-                                    Compatible & Available
-                                </div>
-                            </div>
-
-                            {/* <div className="flex flex-row items-center gap-3">
-                            <div>
-                                <Icon icon="ri:circle-fill" className="h-3 w-3 text-yellow-600" />
-                            </div>
-                            <div className="text-[0.6rem] text-gray-600">
-                                Lower Compatibility
-                            </div>
-                        </div> */}
-
-                            <div className="flex flex-row items-center gap-3">
-                                <div>
-                                    <Icon icon="ri:circle-fill" className="h-4 w-4 text-blood-primary" />
-                                </div>
-                                <div className="text-[0.8rem] text-gray-600">
-                                    Unavailable
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div onClick={() => { setEmergencyAlert(true) }} className="absolute -bottom-2 -right-145 z-1001 px-7 py-3 bg-blood-primary cursor-pointer text-white text-[1rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center">
-                            <div>
-                                <Icon icon="ix:about" className="h-4.5 w-4.5" />
-                            </div>
-                            <div>Emergency Alert</div>
-                        </div>
-
                     </div>
 
 
@@ -280,6 +230,56 @@ function Dashboard() {
 
 
                     </MapContainer>
+
+                    <div className="absolute border  bg-white z-1001 left-0 bottom-0 flex flex-col gap-2 rounded-xl p-4">
+
+                        <div className="text-gray-700 text-[0.8rem] font-semibold">Donor status</div>
+
+                        <div className="flex flex-row items-center gap-3">
+                            <div>
+                                <Icon icon="ri:circle-fill" className="h-4 w-4 text-green-600" />
+                            </div>
+                            <div className="text-[0.8rem] text-gray-600">
+                                Exact Match & Available
+                            </div>
+                        </div>
+
+                        <div className="flex flex-row items-center gap-3">
+                            <div>
+                                <Icon icon="ri:circle-fill" className="h-4 w-4 text-blue-600" />
+                            </div>
+                            <div className="text-[0.8rem] text-gray-600">
+                                Compatible & Available
+                            </div>
+                        </div>
+
+                        {/* <div className="flex flex-row items-center gap-3">
+                            <div>
+                                <Icon icon="ri:circle-fill" className="h-3 w-3 text-yellow-600" />
+                            </div>
+                            <div className="text-[0.6rem] text-gray-600">
+                                Lower Compatibility
+                            </div>
+                        </div> */}
+
+                        <div className="flex flex-row items-center gap-3">
+                            <div>
+                                <Icon icon="ri:circle-fill" className="h-4 w-4 text-blood-primary" />
+                            </div>
+                            <div className="text-[0.8rem] text-gray-600">
+                                Unavailable
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div onClick={() => { setEmergencyAlert(true) }} className="absolute -bottom-2 right-[38%] z-1001 px-7 py-3 bg-blood-primary cursor-pointer text-white text-[1rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center">
+                        <div>
+                            <Icon icon="ix:about" className="h-4.5 w-4.5" />
+                        </div>
+                        <div>Emergency Alert</div>
+                    </div>
 
 
 
@@ -568,7 +568,7 @@ function Dashboard() {
 
 
 
-        </div>
+        </>
     )
 
 }
