@@ -8,7 +8,7 @@ const checkAuth = createAsyncThunk(
           
             const response = await API.get('/me');
 
-            console.log('checkAuth: ', response);
+            // console.log('checkAuth: ', response);
            
             if (response.data.message === 'Authentication successful'){
                 return;

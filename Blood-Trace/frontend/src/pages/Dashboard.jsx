@@ -3,9 +3,10 @@ import Slider from "../components/Slider";
 import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
 import createDonorMarker from "../utils/createDonorMarker";
 import { bloodCompatibility } from "../utils/data";
-import { bloodDonors, bloodTypes } from "../utils/data";
-import { useState, useEffect } from "react";
+import { bloodTypes } from "../utils/data";
+import { useState, useEffect, useLayoutEffect } from "react";
 import L from "leaflet";
+import API from '../utils/API'
 
 // const receipentBloodType = 'A+';
 
@@ -17,14 +18,65 @@ function Dashboard() {
     const [searchRadius, setSearchRadius] = useState(10);
     const [showDonor, setShowDonor] = useState(undefined);
     const [receipentBloodType, setReceipentBloodType] = useState(undefined);
+    const [compatibleDonors, setCompatibleDonors] = useState(undefined);
+    const [currPosition, setCurrPosition] = useState({ latitude: 31.5204, longitude: 74.3587 });
 
-    let latitude = 31.5204
-    let longitude = 74.3587
 
-    receipentBloodType && navigator.geolocation.getCurrentPosition((pos) => {
-        latitude = pos.coords.latitude
-        longitude = pos.coords.longitude
-    })
+    const getUserCoordinates = () => {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        })
+    }
+
+
+
+    // receipentBloodType && navigator.geolocation.getCurrentPosition((pos) => {
+    //     latitude = pos.coords.latitude
+    //     longitude = pos.coords.longitude
+    // })
+
+    //console.log('Allah hu Akbar')
+
+    useEffect(() => {
+        const obtainingUserCoordinates = async () => {
+
+            const position = await getUserCoordinates();
+            const { latitude, longitude } = position.coords;
+            setCurrPosition({ latitude, longitude });
+        }
+
+
+        try {
+            obtainingUserCoordinates();
+        } catch (error) {
+            console.log(error);
+        }
+    }, [])
+
+    useEffect(() => {
+
+        const fetchDonors = async () => {
+
+            if (receipentBloodType) {
+
+                const response = await API.get(`/donor/search?lng=${currPosition.longitude}&lat=${currPosition.latitude}&radius=${searchRadius}`)
+
+                const bloodDonors = response.data.donors;
+
+                setCompatibleDonors(bloodDonors.filter((donor => bloodCompatibility[receipentBloodType].includes(donor.bloodType))));
+
+                //console.log("aaa", bloodDonors);
+            }
+        }
+
+        //console.log('Bismillah');
+        fetchDonors();
+
+
+
+    }, [receipentBloodType, searchRadius])
+
+    //console.log('Why?')
 
     const yourLocationIcon = () => {
 
@@ -32,19 +84,19 @@ function Dashboard() {
             className: 'custom-div-icon',
             // The HTML structure: Dot container + Label
             html: `
-      <div class="flex flex-col items-center">
-        <!-- The Pulsing Circle -->
-        <div class="relative flex items-center justify-center w-10 h-10">
-          <div class="absolute w-full h-full bg-blue-400 opacity-20 rounded-full"></div>
-          <div class="pulse-dot w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-sm"></div>
-        </div>
+                <div class="flex flex-col items-center">
+                    <!-- The Pulsing Circle -->
+                    <div class="relative flex items-center justify-center w-10 h-10">
+                        <div class="absolute w-full h-full bg-blue-400 opacity-20 rounded-full"></div>
+                        <div class="pulse-dot w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-sm"></div>
+                    </div>
         
-        <!-- The "Your Location" Tag -->
-        <div class="mt-1 px-3 py-1 bg-blue-500 text-white text-[10px] font-bold rounded-lg shadow-md whitespace-nowrap">
-          Your Location
-        </div>
-      </div>
-    `,
+                    <!-- The "Your Location" Tag -->
+                    <div class="mt-1 px-3 py-1 bg-blue-500 text-white text-[10px] font-bold rounded-lg shadow-md whitespace-nowrap">
+                        Your Location
+                    </div>
+                </div>`,
+
             iconSize: [100, 60], // Size of the invisible container
             iconAnchor: [50, 30], // Point of the icon which will correspond to marker's location (Center)
         });
@@ -64,7 +116,7 @@ function Dashboard() {
 
         return (
             <Circle
-                center={[latitude, longitude]}
+                center={[currPosition.latitude, currPosition.longitude]}
                 pathOptions={zoneOptions}
                 radius={searchRadius * 1000}
                 interactive={false}
@@ -73,18 +125,18 @@ function Dashboard() {
 
     }
 
-    const compatibleDonors = receipentBloodType && bloodDonors.filter(donor => {
-        if (bloodCompatibility[receipentBloodType].includes(donor.bloodType)) {
+    // const compatibleDonors = receipentBloodType && bloodDonors.filter(donor => {
+    //     if (bloodCompatibility[receipentBloodType].includes(donor.bloodType)) {
 
-            const p1 = L.latLng(donor.geolocation[0], donor.geolocation[1]);
-            const p2 = L.latLng(latitude, longitude);
+    //         const p1 = L.latLng(donor.geolocation[1], donor.geolocation[0]);
+    //         const p2 = L.latLng(latitude, longitude);
 
-            const distanceKm = p1.distanceTo(p2) / 1000;
+    //         const distanceKm = p1.distanceTo(p2) / 1000;
 
-            return distanceKm <= searchRadius ? true : false;
-        }
-        return false
-    })
+    //         return distanceKm <= searchRadius ? true : false;
+    //     }
+    //     return false
+    // })
 
     //console.log(searchRadius)
 
@@ -122,7 +174,7 @@ function Dashboard() {
                     <div className="fixed top-17 right-4 bg-white p-3 z-999 rounded-2xl">
 
                         <div className="text-blood-primary font-semibold  text-xl">
-                            {compatibleDonors.length}
+                            {compatibleDonors && compatibleDonors.length}
                         </div>
 
                         <div className="text-gray-700 text-[0.8rem] font-semibold">Donors found</div>
@@ -206,16 +258,16 @@ function Dashboard() {
 
                 <div className="relative flex-1 py-2 ">
 
-                    <MapContainer center={[latitude, longitude]} zoom={9.7}>
+                    <MapContainer center={[currPosition.latitude, currPosition.longitude]} zoom={9.7}>
 
                         <TileLayer
                             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
 
-                        {receipentBloodType && compatibleDonors.map(((donor) => {
+                        {compatibleDonors && compatibleDonors.map(((donor) => {
                             return (
-                                <Marker key={donor.id} position={donor.geolocation} icon={createDonorMarker(donor, receipentBloodType)}
+                                <Marker key={donor._id} position={[donor.geolocation[1], donor.geolocation[0]]} icon={createDonorMarker(donor, receipentBloodType)}
                                     eventHandlers={{
                                         click: () => { setShowDonor(donor) }
                                     }}
@@ -224,7 +276,9 @@ function Dashboard() {
                             )
                         }))}
 
-                        <Marker key={crypto.randomUUID()} position={[latitude, longitude]} icon={yourLocationIcon()} />
+                        <Marker key={crypto.randomUUID()}
+                            position={[currPosition.latitude, currPosition.longitude]} icon={yourLocationIcon()} />
+
 
                         <SearchRadius searchRadius={Number(searchRadius)} />
 

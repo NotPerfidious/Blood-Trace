@@ -36,7 +36,7 @@ function Login() {
                 alert('Invalid Credentials');
             }
             
-            console.log("Login: ", response.data)
+            // console.log("Login: ", response.data)
         } catch (error) {
 
         }

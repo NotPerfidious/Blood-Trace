@@ -100,8 +100,44 @@ const loginUser = async (req, res) => {
     }
 }
 
+//for testing and development
+
+const createUsers = async (req, res) => {
+    try {
+        const pakistaniNames = [
+            "Ali Ahmed", "Sara Khan", "Bilal Hussain", "Fatima Zehra", "Hamza Tariq",
+            "Zainab Bibi", "Usman Sheikh", "Aisha Noor", "Omar Farooq", "Mariam Jameel",
+            "Hassan Ali", "Hania Amir", "Mustafa Kamal", "Dua Malik", "Abdullah Shah",
+            "Anaya Bi", "Zaid Qureshi", "Zoya Hassan", "Ibrahim Lodhi", "Mahnoor Baloch",
+            "Junaid Khan", "Alizey Shah", "Faisal Iqbal", "Iman Fatima", "Arsalan Bakht",
+            "Sana Javed", "Hussain Rizvi", "Kiran Mazhar", "Saad Rafique", "Amna Sheikh"
+        ];
+
+        const users = pakistaniNames.map((name, index) => {
+            const emailPrefix = name.toLowerCase().replace(/\s+/g, '.');
+            return {
+                email: `${emailPrefix}@example.com`,
+                password: '123456',
+                // Logic: index 0 is Admin, everyone else is a User
+                role: index === 0 ? 'admin' : 'user'
+            };
+        });
+
+        // Insert everything in one go
+        await User.create(users);
+
+        return res.status(201).json({
+            message: 'created 29 users and 1 admin'
+        })
+
+    } catch (error) {
+        console.error(`[SEED ERROR]: ${error.message}`);
+    }
+}
+
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    createUsers
 };

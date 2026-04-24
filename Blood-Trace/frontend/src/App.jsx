@@ -24,7 +24,7 @@ function App() {
   const { loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    console.log('App mounted')
+    // console.log('App mounted')
     dispatch(checkAuth())
   }, [dispatch])
 
@@ -61,7 +61,7 @@ function App() {
             <Route path="register" element={<Register />} />
 
 
-            <Route element={<ProtectedRoute/>}>
+            <Route element={<ProtectedRoute />}>
 
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="register-donor" element={<RegisterDonor />} />
