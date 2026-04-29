@@ -1,7 +1,13 @@
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Landing() {
+
+    const { isAuthenticated , user} = useSelector((state) => state.auth);
+
+    //console.log(user);
+
     return (
 
         <div className="">
@@ -29,11 +35,11 @@ function Landing() {
                     Blood-Trace is a cutting-edge emergency response platform designed for high-stress medical environments. Find, contact, and coordinate with compatible blood donors in your area with unprecedented speed and accuracy.
                 </div>
 
-                <Link to="/dashboard" className="bg-blood-primary cursor-pointer text-white text-[1rem] flex flex-row gap-1.5 p-2 rounded-2xl justify-center items-center w-60 h-12">
+                <Link to={isAuthenticated ? "/dashboard" : '/login'} className="bg-blood-primary hover:bg-red-700 transition cursor-pointer text-white text-[1rem] flex flex-row gap-1.5 p-2 rounded-2xl justify-center items-center w-60 h-12">
                     <div>
                         <Icon icon="mingcute:heartbeat-line" className="h-5.5 w-5.5" />
                     </div>
-                    <div>Launch Dashboard</div>
+                    <div>{isAuthenticated ? "Launch Dashboard" : 'Sign Up/Login now'}</div>
                     <div>
                         <Icon
                             icon="lucide:arrow-right"
@@ -173,11 +179,11 @@ function Landing() {
                     Access the Blood-Trace dashboard and start locating compatible donors in your area.
                 </div>
 
-                <Link to="/dashboard" className="bg-white text-blood-primary cursor-pointer text-[1rem] flex flex-row gap-1.5 p-2 rounded-2xl justify-center items-center">
+                <Link to={isAuthenticated ? "/dashboard" : '/login'} className="bg-white text-blood-primary cursor-pointer text-[1rem] flex flex-row gap-1.5 p-2 rounded-2xl justify-center items-center">
                     <div>
                         <Icon icon="mingcute:heartbeat-line" className="h-5.5 w-5.5" />
                     </div>
-                    <div>Launch Dashboard</div>
+                    <div>{isAuthenticated ? "Launch Dashboard" : 'Sign Up/Login now'}</div>
                     <div>
                         <Icon
                             icon="lucide:arrow-right"

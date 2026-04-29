@@ -2,17 +2,31 @@ import footerLogo from '../assets/images/footer-logo.png'
 import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'
 import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function Footer() {
+
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+    const checkIsAuthenticated = (e) => { // user clicking on nav button will have no effect
+        if (!isAuthenticated) {
+            e.preventDefault();
+        }
+    }
+
     return (
         <div className="footer-container bg-footer-main text-footer-text p-2.5">
 
             <div className='flex justify-between items-start'>
                 <div className='flex-col w-65'>
-                    <div className='flex'>
-                        <BloodTraceLogo logo={footerLogo} dimensions='w-12 h-12' />
-                        <div className='flex items-center'>Blood-Trace</div>
-                    </div>
+
+                    <NavLink to='/'>
+                        <div className='flex'>
+                            <BloodTraceLogo logo={footerLogo} dimensions='w-12 h-12' />
+                            <div className='flex items-center'>Blood-Trace</div>
+                        </div>
+                    </NavLink>
+
 
                     <div className='text-[0.85rem] text-gray-400 mt-1 font-light'>
                         A visual blood donor locator system designed to
@@ -24,37 +38,73 @@ function Footer() {
 
                 <div className='flex flex-col  w-60 gap-2'>
                     <div className='flex items-center'>Quick Links</div>
-                    <NavLink to="/dashboard" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+                    <NavLink to="/dashboard" onClick={checkIsAuthenticated} className={
+                        ({ isActive }) =>
+                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
+                                'text-gray-600 cursor-default'
+                    }>
                         <div className='text-[0.87rem] font-light'>Find Donors</div>
                     </NavLink>
 
-                    <NavLink to="/register-donor" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+                    <NavLink to="/register-donor" onClick={checkIsAuthenticated} className={
+                        ({ isActive }) =>
+                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
+                                'text-gray-600 cursor-default'
+                    }>
                         <div className='text-[0.87rem] font-light'>Register As Donors</div>
                     </NavLink>
-                    <NavLink to="/about" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+                    <NavLink to="/about" className={
+                        ({ isActive }) =>
+                            (isActive ? 'text-blood-primary' : ' text-gray-400')
+                    }>
                         <div className='text-[0.87rem] font-light'>About Us</div>
                     </NavLink>
-                   
 
-                    <NavLink to="/help" className={({isActive})=> isActive?'text-blood-primary':' text-gray-400'}>
+
+                    <NavLink to="/help" onClick={checkIsAuthenticated} className={
+                        ({ isActive }) =>
+                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
+                                'text-gray-600 cursor-default'
+                    }>
                         <div className='text-[0.87rem] font-light'>Help & FAQ</div>
                     </NavLink>
                 </div>
 
                 <div className='flex flex-col w-60 gap-2'>
                     <div className='flex items-center'>Resources</div>
-                    <NavLink to="/notifications" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+
+                    <NavLink to="/notifications" onClick={checkIsAuthenticated} className={
+                        ({ isActive }) =>
+                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
+                                'text-gray-600 cursor-default'
+                    }>
                         <div className='text-[0.87rem] font-light'>Notifications</div>
                     </NavLink>
-                    <NavLink to="/accessibility" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+
+                    <NavLink to="/accessibility" onClick={checkIsAuthenticated} className={
+                        ({ isActive }) =>
+                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
+                                'text-gray-600 cursor-default'
+                    }>
                         <div className='text-[0.87rem] font-light'>Accessibility</div>
                     </NavLink>
-                    <NavLink to="/profile" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+
+                    <NavLink to="/profile" onClick={checkIsAuthenticated} className={
+                        ({ isActive }) =>
+                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
+                                'text-gray-600 cursor-default'
+                    }>
                         <div className='text-[0.87rem] font-light'>My Profile</div>
                     </NavLink>
-                    <NavLink to="/admin" className={({ isActive }) => isActive ? 'text-blood-primary' : ' text-gray-400'}>
+
+                    {user?.role === 'admin' && (<NavLink to="/admin" onClick={checkIsAuthenticated} className={
+                        ({ isActive }) =>
+                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
+                                'text-gray-600 cursor-default'
+                    }>
                         <div className='text-[0.87rem] font-light'>Admin Dashboard</div>
-                    </NavLink>
+                    </NavLink>)}
+
                 </div>
 
                 <div className='flex flex-col w-60 gap-2'>

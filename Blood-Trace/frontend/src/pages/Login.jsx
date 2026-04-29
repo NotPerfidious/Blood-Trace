@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import API from '../utils/API';
 import { setUser, setLoading, setIsAuthenticated } from '../features/auth/authSlice'
 import { useDispatch } from 'react-redux';
+import { Icon } from '@iconify/react';
 
 function Login() {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [successMsg, setSuccessMsg] = useState(false);
+    const [errorMsg, setErrorMsg] = useState(false);
     const dispatch = useDispatch();
 
     const handleLogin = async (e) => {
@@ -32,12 +34,24 @@ function Login() {
                     navigate('/dashboard');
                 }, 1500);
             }
-            else{
+            else {
                 alert('Invalid Credentials');
             }
-            
+
             // console.log("Login: ", response.data)
         } catch (error) {
+
+            if (error.response) // we did get a response
+            {
+                if (error.response.data?.message === 'Invalid credentials') {
+                    setErrorMsg('Invalid credentials');
+                } else if (error.response.data?.message === 'User not found') {
+                    setErrorMsg('Email not registered');
+                }
+            }
+            else {
+                console.log(`[ERROR]: ${error}`)
+            }
 
         }
     };
@@ -55,12 +69,17 @@ function Login() {
 
                 <form onSubmit={handleLogin} className="flex flex-col gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Username or Email</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                         <input
                             type="text"
                             required
                             value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={(e) => {
+                                setUsername(e.target.value);
+
+                                if (errorMsg)
+                                    setErrorMsg(false);
+                            }}
                             className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-500"
                             placeholder="Enter username or email"
                         />
@@ -72,7 +91,12 @@ function Login() {
                             type="password"
                             required
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+
+                                if (errorMsg)
+                                    setErrorMsg(false);
+                            }}
                             className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-500"
                             placeholder="Enter your password"
                         />
@@ -84,6 +108,12 @@ function Login() {
                     >
                         Log In
                     </button>
+
+
+                    {errorMsg && (<div className='text-blood-primary flex gap-2 font-medium items-center text-[0.95rem]'>
+                        <Icon icon='mdi:about-circle-outline' className='h-5 w-5' />
+                        <div>{errorMsg}</div>
+                    </div>)}
                 </form>
 
                 <div className="mt-6 text-center text-sm text-gray-600">

@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
 import createDonorMarker from "../utils/createDonorMarker";
 import { bloodCompatibility } from "../utils/data";
 import { bloodTypes } from "../utils/data";
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import L from "leaflet";
 import API from '../utils/API'
 
@@ -20,6 +20,7 @@ function Dashboard() {
     const [receipentBloodType, setReceipentBloodType] = useState(undefined);
     const [compatibleDonors, setCompatibleDonors] = useState(undefined);
     const [currPosition, setCurrPosition] = useState({ latitude: 31.5204, longitude: 74.3587 });
+    const timeoutId = useRef(undefined);
 
 
     const getUserCoordinates = () => {
@@ -69,12 +70,30 @@ function Dashboard() {
             }
         }
 
+        try {
+            if (timeoutId.current) {
+                clearTimeout(timeoutId.current);
+            }
+
+            timeoutId.current = setTimeout(() => {
+                fetchDonors();
+            }, 200)
+
+        } catch (error) {
+            console.log(error);
+        }
+
         //console.log('Bismillah');
-        fetchDonors();
 
 
 
-    }, [receipentBloodType, searchRadius])
+        return () => {
+            if (timeoutId.current) {
+                clearTimeout(timeoutId.current);
+            }
+        }
+
+    }, [receipentBloodType, searchRadius, currPosition])
 
     //console.log('Why?')
 
@@ -150,8 +169,6 @@ function Dashboard() {
     }, [emergencyAlert])
 
     const nameIcon = (name) => {
-
-
         let arr = name.split(' ')
 
         if (arr.length > 1) {
@@ -163,6 +180,25 @@ function Dashboard() {
         return arr[0][0].toUpperCase()
     }
 
+    const getDistance = (lat, lng) => {
+        const p1 = L.latLng(currPosition.latitude, currPosition.longitude);
+        const p2 = L.latLng(lat, lng);
+
+        const distance = p1.distanceTo(p2) / 1000;
+
+        return distance.toFixed(2);
+    }
+
+    const formatDate = (dateIso) => {
+
+        const date = new Date(dateIso);
+        const options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        }
+        return date.toLocaleDateString(date, options)
+    }
 
     return (
         <>
@@ -187,7 +223,12 @@ function Dashboard() {
                 <div>
                     <div className="bg-white relative p-3 pb-33 rounded-lg">
 
-                        {receipentBloodType && (<button onClick={() => { setReceipentBloodType(undefined); setShowDonor(undefined); }} className="cursor-pointer absolute top-3 right-3">
+                        {receipentBloodType && (<button onClick={() => {
+                            setReceipentBloodType(undefined);
+                            setShowDonor(undefined);
+                            setCompatibleDonors(undefined);
+                        }}
+                            className="cursor-pointer absolute top-3 right-3">
                             <Icon icon="maki:cross" className="text-gray-600 h-3 w-3" />
                         </button>)}
 
@@ -348,9 +389,13 @@ function Dashboard() {
                                 <Icon icon="maki:cross" className="text-gray-600 h-3 w-3" />
                             </button>
 
-                            <div className={`${showDonor.isAvailable ? (showDonor.bloodType == receipentBloodType ? 'bg-green-100' : 'bg-blue-100') : 'bg-red-100'} flex flex-col p-3 py-5 gap-3 justify-center `}>
+                            <div className={`${showDonor.isAvailable ?
+                                (showDonor.bloodType == receipentBloodType ? 'bg-green-100' : 'bg-blue-100')
+                                :
+                                'bg-red-100'} 
+                                flex flex-col p-3 py-5 gap-3 justify-center `}>
                                 <div className="flex flex-row gap-2 items-center">
-                                    <div className={`${showDonor.isAvailable ? (showDonor.bloodType == receipentBloodType ? 'bg-green-600' : 'bg-blue-600') : 'bg-blood-primary'} text-white p-3 px-3.5 rounded-full font-bold`}>
+                                    <div className={`${showDonor.isAvailable ? (showDonor.bloodType == receipentBloodType ? 'bg-green-600' : 'bg-blue-600') : 'bg-blood-primary'} text-white p-3.75 rounded-full font-bold`}>
                                         {nameIcon(showDonor.name)}
                                     </div>
                                     <div className='flex-col justify-center-safe'>
@@ -401,7 +446,7 @@ function Dashboard() {
                                     </div>
 
                                     <div className=" ml-8.5 font-semibold">
-                                        0.73 km away
+                                        {getDistance(showDonor.geolocation[1], showDonor.geolocation[0])} km away
                                     </div>
                                 </div>
 
@@ -420,7 +465,8 @@ function Dashboard() {
                                         </div>
 
                                         <div className=" ml-8.5 font-semibold">
-                                            {showDonor.lastDonationDate}
+                                            {
+                                            formatDate(showDonor.lastDonationDate)}
                                         </div>
                                     </div>
                                 )}
@@ -454,7 +500,7 @@ function Dashboard() {
                                     <div className="font-bold">Send Direct Request</div>
                                 </div>
 
-                                <div className="text-gray-700 text-[0.6rem]">
+                                <div className="text-gray-500 text-[0.6rem] font-medium">
                                     Please be courteous when contacting donors
                                 </div>
 

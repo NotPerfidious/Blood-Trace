@@ -18,6 +18,8 @@ const authenticateUser = (req, res, next) => {
             })
         }
 
+        console.log(user);
+
         req.user = user;
 
         return next();

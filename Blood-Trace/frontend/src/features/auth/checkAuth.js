@@ -11,7 +11,7 @@ const checkAuth = createAsyncThunk(
             // console.log('checkAuth: ', response);
            
             if (response.data.message === 'Authentication successful'){
-                return;
+                return response.data.user;
             }
 
             throw Error();

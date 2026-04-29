@@ -2,6 +2,8 @@ import { Icon } from "@iconify/react";
 import { bloodTypes } from "../utils/data";
 import { useEffect, useRef, useState } from "react";
 import ToggleSwitch from "../components/ToggleSwitch";
+import axios from 'axios';
+import API from "../utils/API";
 
 
 function RegisterDonor() {
@@ -18,7 +20,36 @@ function RegisterDonor() {
     const [isAvailable, setIsAvailable] = useState(true);
 
     const [inCompleteSubmission, setInCompleteSubmission] = useState(false);
-    const [registrationSuccess, setRegistrationSuccess] = useState(false)
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(undefined);
+
+    useEffect(() => {
+
+        const isDonorRegistered = async () => {
+
+            const response = await API.get('/donor/check');
+
+            // setTimeout(() => {
+            //     console.log('isDonorRegistered ', response);
+            // }, 4000);
+
+
+            if (response.status === 200 && response.data.message === 'User is a registered donor') {
+                setRegistrationSuccess(true);
+                return;
+            }
+
+            setRegistrationSuccess(false);
+        }
+
+        try {
+
+            isDonorRegistered();
+
+        } catch (error) {
+
+        }
+    }, [])
 
     // console.log(name);
     // console.log(contactNumber);
@@ -36,7 +67,7 @@ function RegisterDonor() {
             document.body.style.overflow = 'unset'
     }, [inCompleteSubmission])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!name || !contactNumber || !bloodType || !city || !area) {
@@ -44,16 +75,62 @@ function RegisterDonor() {
             return;
         }
 
-        console.log(name);
-        console.log(contactNumber);
-        console.log(bloodType);
-        console.log(lastDonationDate);
-        console.log(city);
-        console.log(area);
-        console.log(isAvailable);
+        try {
+            const apiResponse = await axios.get(`https://nominatim.openstreetmap.org/search?q=${area + ', ' + city}&format=json&addressdetails=1&limit=1`)
 
-        setRegistrationSuccess(true);
+            console.log(apiResponse.status);
+            console.log(apiResponse);
 
+            const apiData = apiResponse.data[0];
+
+            if (apiResponse.status != 200 || !apiData) {
+                setErrorMessage('Location could not be found. Try another nearby location')
+                return;
+            }
+
+            const geolocation = [parseFloat(apiData.lon), parseFloat(apiData.lat)];
+
+
+
+            const response = await API.post('/donor/register', {
+                name,
+                bloodType,
+                geolocation,
+                contactNumber,
+                isAvailable,
+                ...(lastDonationDate && { lastDonationDate })
+            })
+
+            if (response.status === 201 && response.data.message === 'Donor registration successfull') {
+                setRegistrationSuccess(true);
+            }
+            else {
+                setErrorMessage(response.data.message);
+            }
+
+
+
+        } catch (error) {
+
+            if (error.response) {
+                // The server responded with a status code outside of 2xx
+                console.log("Status:", error.response.status);
+                console.log("Message:", error.response.data.error);
+
+                if (error.response.status === 403) {
+                    console.error("Blocked: Check your User-Agent or IP limits.");
+                }
+            }
+
+        }
+
+        // console.log(name);
+        // console.log(contactNumber);
+        // console.log(bloodType);
+        // console.log(lastDonationDate);
+        // console.log(city);
+        // console.log(area);
+        // console.log(isAvailable);
     }
 
     const handleDateInputClick = () => {
@@ -63,7 +140,9 @@ function RegisterDonor() {
     }
 
     return (
-        <main className="relative flex flex-col gap-5 justify-center items-center p-4 bg-[#fdf0f0]">
+
+
+        <main className="flex-1 flex flex-col gap-5 justify-center items-center p-4 bg-[#fdf0f0]">
 
 
             {!registrationSuccess && (
@@ -225,7 +304,7 @@ function RegisterDonor() {
             {registrationSuccess && (
 
                 <>
-                    <div onClick={() => setRegistrationSuccess(false)} className="absolute inset-0" />
+                    <div className="absolute inset-0" />
                     <div className="relative bg-white p-6 rounded-xl">
 
                         <div className="flex flex-col gap-5 justify-center items-center">
@@ -255,16 +334,37 @@ function RegisterDonor() {
 
                         </div>
 
-                        <div className="">
+                        {/* <div className="">
                             <button onClick={() => setRegistrationSuccess(false)} className="bg-blood-primary active:scale-95 cursor-pointer w-full mt-7 p-3 rounded-2xl">
                                 <div className="flex items-center justify-center gap-3">
                                     <div className="text-white text-xl font-bold">Register Another Donor</div>
                                 </div>
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </>
 
+            )}
+
+
+            {errorMessage && (
+                <div className="fixed z-10000 inset-0 flex justify-center items-center">
+
+                    <div onClick={() => { setErrorMessage(undefined) }} className="absolute inset-0 bg-gray-900/60" />
+
+                    <div className="relative bg-white rounded-xl p-8 flex items-center gap-5">
+                        <button onClick={() => { setErrorMessage(undefined) }} className="cursor-pointer absolute top-3 right-5">
+                            <Icon icon="maki:cross" className="text-gray-600 h-3 w-3" />
+                        </button>
+
+                        <div>
+                            <Icon icon="subway:missing" className="h-10 w-10 text-blood-primary" />
+                        </div>
+
+                        <div className="font-bold text-xl">{errorMessage}</div>
+                    </div>
+
+                </div>
             )}
 
         </main>

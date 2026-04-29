@@ -17,6 +17,7 @@ import Profile from './pages/Profile'
 import checkAuth from './features/auth/checkAuth'
 import LoadingPulse from './components/LoadingPulse'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminRoute from './components/AdminRoute'
 
 function App() {
 
@@ -59,19 +60,22 @@ function App() {
             <Route index element={<Landing />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="about" element={<About />} />
 
 
             <Route element={<ProtectedRoute />}>
 
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="register-donor" element={<RegisterDonor />} />
-              <Route path="about" element={<About />} />
               <Route path="notifications" element={<Notifications />} />
 
               <Route path="help" element={<Help />} />
               <Route path="accessibility" element={<AccessibilitySettings />} />
               <Route path="profile" element={<Profile />} />
-              <Route path="admin" element={<AdminDashboard />} />
+
+              <Route element={<AdminRoute />}>
+                <Route path="admin" element={<AdminDashboard />} />
+              </Route>
 
             </Route>
 

@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 function Navbar() {
     const [activeTab, setActiveTab] = useState('')
 
-    const { isAuthenticated } = useSelector(state => state.auth);
+    const { isAuthenticated, user } = useSelector(state => state.auth);
 
     const checkIsAuthenticated = (e) => { // user clicking on nav button will have no effect
         if (!isAuthenticated) {
@@ -64,9 +64,8 @@ function Navbar() {
                 </NavLink>
 
 
-                <NavLink to="/about" onClick={checkIsAuthenticated} className={({ isActive }) => `p-1 px-2 rounded-sm 
-                ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : "hover:bg-gray-100")
-                        : 'text-gray-400 cursor-default'} 
+                <NavLink to="/about" className={({ isActive }) => `p-1 px-2 rounded-sm 
+                ${isActive ? 'bg-blood-primary text-white' : "hover:bg-gray-100"} 
                 `} >
                     <div className='flex justify-center items-center gap-1.5'>
                         <Icon
@@ -111,12 +110,12 @@ function Navbar() {
                         <Icon icon='meteor-icons:gear' className="w-5.5 h-5.5" />
                     </NavLink>
 
-                    <NavLink to="/admin" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
+                   {user?.role==='admin'  && (<NavLink to="/admin" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
                     ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
                             : 'text-gray-400 cursor-default'}
                     `} title="Admin Dashboard">
                         <Icon icon='material-symbols:widgets-outline-rounded' className="w-5.5 h-5.5" />
-                    </NavLink>
+                    </NavLink>)}
 
                     <NavLink to="/profile" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
                     ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')

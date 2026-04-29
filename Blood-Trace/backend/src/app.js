@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 const userRouter = require('./routes/user.route');
 const donorRouter = require('./routes/donor.route');
 const authenticateUser = require('./middlewares/auth.middleware');
-const {createUsers} = require('./controllers/user.controller')
+const { createUsers } = require('./controllers/user.controller')
 
 const app = express();
 
@@ -17,9 +17,9 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })); // reads url par
 
 
 app.use('/api/v1/user', userRouter); //  http://localhost:4000/api/v1/user
-app.use('/api/v1/donor', donorRouter); //  http://localhost:4000/api/v1/donor
+app.use('/api/v1/donor', authenticateUser, donorRouter); //  http://localhost:4000/api/v1/donor
 
-app.use('/api/v1/create', createUsers);  //  http://localhost:4000/api/v1/create
+//app.use('/api/v1/create', createUsers);  //  http://localhost:4000/api/v1/create for testing and development
 
 
 app.use("/api/v1/me", authenticateUser, (req, res) => {
@@ -29,7 +29,11 @@ app.use("/api/v1/me", authenticateUser, (req, res) => {
 
     return res.status(200).json({
         message: "Authentication successful",
-        user
+        user: {
+            id: user.id,
+            email: user.email,
+            role: user.role
+        }
     })
 })
 

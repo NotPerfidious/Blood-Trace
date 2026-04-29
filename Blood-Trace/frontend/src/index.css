@@ -17,9 +17,7 @@
         font-family: var(--font-main);
         padding: 0;
         margin: 0;
-        background-color: #8f8e8e;
-        padding-top: 55px;
-        
+        padding-top: 55px; 
     }
 
     html{
