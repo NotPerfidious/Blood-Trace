@@ -61,10 +61,9 @@ function Footer() {
                     </NavLink>
 
 
-                    <NavLink to="/help" onClick={checkIsAuthenticated} className={
+                    <NavLink to="/help" className={
                         ({ isActive }) =>
-                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
-                                'text-gray-600 cursor-default'
+                            (isActive ? 'text-blood-primary' : ' text-gray-400')
                     }>
                         <div className='text-[0.87rem] font-light'>Help & FAQ</div>
                     </NavLink>
@@ -81,10 +80,9 @@ function Footer() {
                         <div className='text-[0.87rem] font-light'>Notifications</div>
                     </NavLink>
 
-                    <NavLink to="/accessibility" onClick={checkIsAuthenticated} className={
+                    <NavLink to="/accessibility" className={
                         ({ isActive }) =>
-                            isAuthenticated ? (isActive ? 'text-blood-primary' : ' text-gray-400') :
-                                'text-gray-600 cursor-default'
+                            (isActive ? 'text-blood-primary' : ' text-gray-400')
                     }>
                         <div className='text-[0.87rem] font-light'>Accessibility</div>
                     </NavLink>

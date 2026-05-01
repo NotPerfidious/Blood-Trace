@@ -42,6 +42,12 @@ const registerUser = async (req, res) => {
 
 
     } catch (error) {
+        if (error.name === 'ValidationError'){
+            const messages=Object.values(error.errors).map(e=>e.message);
+            return res.status(400).json({
+                message: messages[0]
+            })
+        }
         console.log(`[ERROR]: Internal server error. ${error}`);
         return res.status(500).json({
             message: "Internal server error"
@@ -101,6 +107,28 @@ const loginUser = async (req, res) => {
     }
 }
 
+const logoutUser = async (req, res) => {
+    try {
+        res.clearCookie('accessToken',{
+            httpOnly:true,
+            secure:process.env.NODE_ENV==='production',
+            signed:true,
+            sameSite:'strict'
+        })
+
+        return res.status(200).json({
+            message:'Logout successful'
+        })
+        
+
+    } catch (error) {
+        console.log(`[ERROR at logout]: ${error}`)
+        return res.status(500).json({
+            message:"Internal server error"
+        })
+    }
+}
+
 //for testing and development
 
 // const createUsers = async (req, res) => {
@@ -140,5 +168,6 @@ const loginUser = async (req, res) => {
 module.exports = {
     registerUser,
     loginUser,
+    logoutUser,
     //createUsers
 };

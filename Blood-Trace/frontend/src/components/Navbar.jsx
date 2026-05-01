@@ -4,10 +4,16 @@ import logo from '../assets/images/logo.png'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../features/auth/authSlice';
+import API from '../utils/API';
 
 
 function Navbar() {
     const [activeTab, setActiveTab] = useState('')
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [isPopping, setIsPopping] = useState(true);
 
     const { isAuthenticated, user } = useSelector(state => state.auth);
 
@@ -17,8 +23,34 @@ function Navbar() {
         }
     }
 
-    return (
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    // user clicking on logout button
+    const handleLogout = async () => {
+        try {
+            setIsLoggingOut(true);
+            await API.post('/user/logout');
+
+            setTimeout(() => {
+                navigate('/');
+                
+                // Wait beforeredirect to /login
+                setTimeout(() => {
+                    dispatch(logout());
+                    setIsLoggingOut(false);
+                }, 100);
+                
+            }, 2000);
+        } catch (error) {
+            console.error('Logout failed:', error);
+            setIsLoggingOut(false);
+        }
+    };
+
+
+    return (
+        <>
         <nav className="navbar-container z-9999 fixed left-0 right-0 top-0 flex justify-between items-center p-[0.25] bg-white shadow-sm border-b border-gray-100">
 
             <NavLink to="/" className='cursor-pointer'>
@@ -42,6 +74,20 @@ function Navbar() {
                         <div className={`text-sm font-medium `}>Sign Up</div>
                     </NavLink>
                 </div> */}
+
+                {!isAuthenticated && isPopping && (
+                    <div className="fixed top-[70px] right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
+                        <Icon icon="mdi:lock-outline" className="w-5 h-5 text-blood-primary" />
+                        <span className="font-semibold text-gray-700 text-sm">Please Login / SignUp to access all features</span>
+                        
+                        <button 
+                            onClick={() => setIsPopping(false)} 
+                            className="absolute top-1/2 -translate-y-1/2 right-3 p-1 rounded-full text-gray-400 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer flex items-center justify-center"
+                        >
+                            <Icon icon="material-symbols:close" className="w-4.5 h-4.5" />
+                        </button>
+                    </div>
+                )}
 
                 <NavLink to="/dashboard" onClick={checkIsAuthenticated} className={({ isActive }) => `p-1 px-2 rounded-sm 
                 ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : "hover:bg-gray-100")
@@ -76,9 +122,8 @@ function Navbar() {
                     </div>
                 </NavLink>
 
-                <NavLink to="/help" onClick={checkIsAuthenticated} className={({ isActive }) => `p-1 px-2 rounded-sm 
-                ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : "hover:bg-gray-100")
-                        : 'text-gray-400 cursor-default'} 
+                <NavLink to="/help" className={({ isActive }) => `p-1 px-2 rounded-sm 
+                ${isActive ? 'bg-blood-primary text-white' : "hover:bg-gray-100"} 
                 `}>
                     <div className='flex justify-center items-center gap-1.5'>
                         <Icon
@@ -103,14 +148,13 @@ function Navbar() {
                 </NavLink>
 
                 <div className='flex items-center gap-2'>
-                    <NavLink to="/accessibility" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
-                    ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
-                            : 'text-gray-400 cursor-default'}
+                    <NavLink to="/accessibility" className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
+                    ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100'}
                     `} >
                         <Icon icon='meteor-icons:gear' className="w-5.5 h-5.5" />
                     </NavLink>
 
-                   {user?.role==='admin'  && (<NavLink to="/admin" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
+                    {user?.role === 'admin' && (<NavLink to="/admin" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
                     ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
                             : 'text-gray-400 cursor-default'}
                     `} title="Admin Dashboard">
@@ -123,12 +167,30 @@ function Navbar() {
                     `} >
                         <Icon icon='iconamoon:profile' className="w-5.5 h-5.5" />
                     </NavLink>
+
+                    {isAuthenticated && (
+                        <button
+                            onClick={handleLogout}
+                            className="ml-2 flex justify-center items-center gap-1.5 p-1.5 px-3 rounded-md bg-red-100 text-blood-primary hover:bg-red-200 transition-colors font-medium text-sm cursor-pointer"
+                        >
+                            <Icon icon="solar:logout-2-outline" className="w-5 h-5" />
+                            Logout
+                        </button>
+                    )}
+
                 </div>
 
             </div>
 
         </nav>
 
+        {isLoggingOut && (
+            <div className="fixed top-10 right-10 bg-white border border-gray-200 shadow-xl px-6 py-4 rounded-xl flex items-center gap-4 z-99999 transition-all">
+                <Icon icon="eos-icons:loading" className="w-6 h-6 text-blood-primary" />
+                <span className="font-semibold text-gray-700 text-lg">Logging Out...</span>
+            </div>
+        )}
+        </>
     )
 }
 

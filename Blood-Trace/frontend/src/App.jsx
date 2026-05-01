@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Layout from './pages/Layout'
@@ -61,16 +60,14 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="about" element={<About />} />
-
+            <Route path="help" element={<Help />} />
+            <Route path="accessibility" element={<AccessibilitySettings />} />
 
             <Route element={<ProtectedRoute />}>
 
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="register-donor" element={<RegisterDonor />} />
               <Route path="notifications" element={<Notifications />} />
-
-              <Route path="help" element={<Help />} />
-              <Route path="accessibility" element={<AccessibilitySettings />} />
               <Route path="profile" element={<Profile />} />
 
               <Route element={<AdminRoute />}>

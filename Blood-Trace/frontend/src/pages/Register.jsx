@@ -17,7 +17,11 @@ function Register() {
     const handleRegister = async (e) => {
         console.log('fhfhf')
         e.preventDefault();
-
+        
+        if (password.length < 6) {
+            setErrorMsg('Password must be at least 6 characters long');
+            return;
+        }
         try {
 
             const response = await API.post('/user/register', {
@@ -45,6 +49,9 @@ function Register() {
                 if (error.response.data?.message === 'This email is already in use') {
                     setErrorMsg('This email is already in use');
                 }
+                 else {
+                setErrorMsg(error.response.data?.message || "Something went wrong");
+            }
             }
             else {
                 console.log(`[ERROR]: ${error}`)
