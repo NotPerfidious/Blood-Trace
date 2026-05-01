@@ -4,22 +4,22 @@ const cookieParser = require('cookie-parser')
 const userRouter = require('./routes/user.route');
 const donorRouter = require('./routes/donor.route');
 const notificationRouter = require('./routes/notification.route');
+const adminRouter = require('./routes/admin.route');
 const authenticateUser = require('./middlewares/auth.middleware');
+const isAdmin = require('./middlewares/isAdmin.middleware');
 const { createUsers } = require('./controllers/user.controller')
 
 const app = express();
 
 app.use(cors());
 app.use(cookieParser(process.env.COOKIE_SECRET))
-app.use(express.json({ limit: "16kb" })); // allows server to read json bodies
-
-app.use(express.urlencoded({ extended: true, limit: "16kb" })); // reads url parameters
-
-
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/donor', authenticateUser, donorRouter);
 app.use('/api/v1/notification', authenticateUser, notificationRouter);
+app.use('/api/v1/admin', authenticateUser, isAdmin, adminRouter);
 
 //app.use('/api/v1/create', createUsers);  //  http://localhost:4000/api/v1/create for testing and development
 

@@ -14,6 +14,7 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
         if (notif.type !== 'Emergency' && notif.type !== 'Requests') return;
 
         const [lng, lat] = notif.location;
+        //open api
         fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
             .then(res => res.json())
             .then(data => {
@@ -21,18 +22,18 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
                 const name = addr.suburb || addr.neighbourhood || addr.city_district || addr.city || addr.town || addr.county || '';
                 setLocationName(name);
             })
-            .catch(() => {});
+            .catch(() => { });
     }, [notif.location, notif.type]);
 
     const getIconInfo = (type) => {
         switch (type) {
-            case 'Emergency': 
+            case 'Emergency':
                 return { icon: "mdi:alert-circle-outline", color: "text-[#D92D20]" };
-            case 'Requests': 
+            case 'Requests':
                 return { icon: "mdi:bell-outline", color: "text-orange-400" };
-            case 'Info': 
+            case 'Info':
                 return { icon: "mdi:alert-circle-outline", color: "text-blue-400" };
-            default: 
+            default:
                 return { icon: "mdi:bell-outline", color: "text-gray-400" };
         }
     };
@@ -159,11 +160,11 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
                 <div
                     className="fixed inset-0 z-50 flex flex-col justify-center items-center bg-black/40 px-4"
                     onClick={() => isSuccess(false)} // clicking anywhere on screen vanishes it
-                    >
+                >
                     {/* success message */}
                     <div
                         className="bg-white rounded-xl shadow-lg w-full max-w-sm p-6 text-center text-green-700 cursor-pointer"
-                        >
+                    >
                         <Icon icon="mdi:check-circle" className="w-16 h-16 text-green-500 mx-auto mb-3" />
                         <h2 className="text-xl font-bold mb-1">Message Sent!</h2>
                         <p className="text-sm text-gray-600">Your response has been delivered.</p>

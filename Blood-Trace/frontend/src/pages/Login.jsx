@@ -31,7 +31,8 @@ function Login() {
 
                 setSuccessMsg(true);
                 setTimeout(() => {
-                    navigate('/dashboard');
+                    const role = response.data.user?.role;
+                    navigate(role === 'admin' ? '/admin' : '/dashboard');
                 }, 1500);
             }
             else {
@@ -71,17 +72,18 @@ function Login() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                         <input
-                            type="text"
+                            type="email"
+                            name="email"
+                            autoComplete="email"
                             required
                             value={username}
                             onChange={(e) => {
                                 setUsername(e.target.value);
-
                                 if (errorMsg)
                                     setErrorMsg(false);
                             }}
                             className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-1 focus:ring-red-500"
-                            placeholder="Enter username or email"
+                            placeholder="Enter your email"
                         />
                     </div>
 

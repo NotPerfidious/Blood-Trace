@@ -30,7 +30,7 @@ const markAsRead = async (req, res) => {
         const notification = await Notification.findOneAndUpdate(
             { _id: req.params.id, recipient: req.user.id, isRead: false },
             { isRead: true },
-            { returnDocument: 'after' } // return the newly updated object
+            { returnDocument: 'after' } 
         );
 
         if (!notification) {

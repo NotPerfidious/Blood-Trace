@@ -55,7 +55,7 @@ function Profile() {
         <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center py-10 px-4 relative">
             {/* Success Popup */}
             {showPopup && (
-                <div className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-[9999] transition-all duration-300">
+                <div className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-9999 transition-all duration-300">
                     <Icon icon="lucide:check-circle" className="w-5 h-5" />
                     <span>Profile saved successfully!</span>
                 </div>

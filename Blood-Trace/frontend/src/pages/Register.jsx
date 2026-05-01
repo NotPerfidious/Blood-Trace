@@ -39,7 +39,8 @@ function Register() {
 
                 setSuccessMsg(true);
                 setTimeout(() => {
-                    navigate('/dashboard');
+                    const role = response.data.user?.role;
+                    navigate(role === 'admin' ? '/admin' : '/dashboard');
                 }, 1500);
             }
 
