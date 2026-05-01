@@ -15,6 +15,7 @@ import API from '../utils/API'
 function Dashboard() {
     const [emergencyAlert, setEmergencyAlert] = useState(false);
     const [emergencyAlertSent, setEmergencyAlertSent] = useState(false);
+    const [directRequestSent, setDirectRequestSent] = useState(false);
     const [searchRadius, setSearchRadius] = useState(10);
     const [showDonor, setShowDonor] = useState(undefined);
     const [receipentBloodType, setReceipentBloodType] = useState(undefined);
@@ -198,6 +199,33 @@ function Dashboard() {
             year: 'numeric'
         }
         return date.toLocaleDateString(date, options)
+    }
+
+    const handleDirectRequest = async (donor) => {
+        try {
+            await API.post('/notification/send-request/' + donor._id, {
+                location: [currPosition.longitude, currPosition.latitude]
+            });
+            setDirectRequestSent(true);
+            setTimeout(() => setDirectRequestSent(false), 3000);
+        } catch (error) {
+            console.log('[ERROR] Direct request failed:', error);
+        }
+    }
+
+    const handleEmergencyAlert = async () => {
+        try {
+            const donorUserIds = compatibleDonors.map(d => d.user);
+            await API.post('/notification/send-emergency', {
+                donorUserIds,
+                location: [currPosition.longitude, currPosition.latitude]
+            });
+        } catch (error) {
+            console.log('[ERROR] Emergency alert failed:', error);
+        } finally {
+            setEmergencyAlert(false);
+            setEmergencyAlertSent(true);
+        }
     }
 
     return (
@@ -490,14 +518,18 @@ function Dashboard() {
                                     </div>
                                 </div>
 
-                                <div className="bg-blood-primary cursor-pointer px-5 text-white text-[1rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center">
+                                <div
+                                    onClick={() => handleDirectRequest(showDonor)}
+                                    className={`cursor-pointer px-5 text-white text-[1rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center transition-colors ${
+                                        directRequestSent ? 'bg-green-600' : 'bg-blood-primary'
+                                    }`}>
                                     <div>
                                         <Icon
-                                            icon="tabler:send"
+                                            icon={directRequestSent ? "charm:circle-tick" : "tabler:send"}
                                             className="w-5 h-5"
                                         />
                                     </div>
-                                    <div className="font-bold">Send Direct Request</div>
+                                    <div className="font-bold">{directRequestSent ? 'Request Sent!' : 'Send Direct Request'}</div>
                                 </div>
 
                                 <div className="text-gray-500 text-[0.6rem] font-medium">
@@ -621,7 +653,7 @@ function Dashboard() {
                                 <div>Cancel</div>
                             </div>
 
-                            <div onClick={() => { setEmergencyAlert(false); setEmergencyAlertSent(true); }} className="px-3 py-2 bg-blood-primary cursor-pointer font-semibold text-white text-[0.9rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center">
+                            <div onClick={handleEmergencyAlert} className="px-3 py-2 bg-blood-primary cursor-pointer font-semibold text-white text-[0.9rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center">
                                 <div>Send Emergency Alert</div>
                             </div>
 

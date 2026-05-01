@@ -2,7 +2,7 @@ import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'
 import logo from '../assets/images/logo.png'
 import { NavLink } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +14,16 @@ function Navbar() {
     const [activeTab, setActiveTab] = useState('')
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isPopping, setIsPopping] = useState(true);
+    const [unreadCount, setUnreadCount] = useState(0);
 
     const { isAuthenticated, user } = useSelector(state => state.auth);
+
+    useEffect(() => {
+        if (!isAuthenticated) { setUnreadCount(0); return; }
+        API.get('/notification/')
+            .then(res => setUnreadCount(res.data.notifications.filter(n => !n.isRead).length))
+            .catch(() => {});
+    }, [isAuthenticated]);
 
     const checkIsAuthenticated = (e) => { // user clicking on nav button will have no effect
         if (!isAuthenticated) {
@@ -35,7 +43,6 @@ function Navbar() {
             setTimeout(() => {
                 navigate('/');
                 
-                // Wait beforeredirect to /login
                 setTimeout(() => {
                     dispatch(logout());
                     setIsLoggingOut(false);
@@ -79,7 +86,7 @@ function Navbar() {
                     <div className="fixed top-[70px] right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
                         <Icon icon="mdi:lock-outline" className="w-5 h-5 text-blood-primary" />
                         <span className="font-semibold text-gray-700 text-sm">Please Login / SignUp to access all features</span>
-                        
+
                         <button 
                             onClick={() => setIsPopping(false)} 
                             className="absolute top-1/2 -translate-y-1/2 right-3 p-1 rounded-full text-gray-400 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer flex items-center justify-center"
@@ -88,6 +95,7 @@ function Navbar() {
                         </button>
                     </div>
                 )}
+
 
                 <NavLink to="/dashboard" onClick={checkIsAuthenticated} className={({ isActive }) => `p-1 px-2 rounded-sm 
                 ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : "hover:bg-gray-100")
@@ -139,10 +147,17 @@ function Navbar() {
                         : 'text-gray-400 cursor-default'} 
                 `} >
                     <div className='flex justify-center items-center gap-1.5'>
-                        <Icon
-                            icon='lucide:bell'
-                            className='mr-1 w-5.5 h-5.5'
-                        ></Icon>
+                        <div className="relative">
+                            <Icon
+                                icon='lucide:bell'
+                                className='mr-1 w-5.5 h-5.5'
+                            />
+                            {isAuthenticated && unreadCount > 0 && (
+                                <span className="absolute -top-1.5 -right-0.5 bg-[#D92D20] text-white text-[0.55rem] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center leading-none">
+                                    {unreadCount > 9 ? '9+' : unreadCount}
+                                </span>
+                            )}
+                        </div>
                         <div className='text-sm font-medium'>Notifications</div>
                     </div>
                 </NavLink>

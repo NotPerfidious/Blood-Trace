@@ -1,35 +1,51 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { d_Notifications } from '../utils/dummy_data';
 import NotificationCard from '../components/NotificationCard';
+import API from '../utils/API';
 
 function Notifications() {
-    const [notifications, setNotifications] = useState(d_Notifications);
+    const [notifications, setNotifications] = useState([]);
     const [activeTab, setActiveTab] = useState('All');
     
-    const unread_n = notifications.filter(n => n.unread).length;
+    const unread_n = notifications.filter(n => !n.isRead).length;
 
     const filtered_n = useMemo(() => {
         if (activeTab === 'All') 
             return notifications;
         if (activeTab === 'Unread') 
-            return notifications.filter(n => n.unread);
+            return notifications.filter(n => !n.isRead);
 
         return notifications.filter(n => n.type === activeTab);
         
     }, [notifications, activeTab]);
 
     const markAllAsRead = () => {
-        setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
+        API.patch('/notification/read-all');
+        setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
     };
 
     const markAsRead = (id) => {
-        setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n));
+        API.patch('/notification/' + id + '/read');
+        setNotifications(prev => prev.map(n => n._id === id ? { ...n, isRead: true } : n));
     };
 
     const delete_n = (id) => {
-        setNotifications(prev => prev.filter(n => n.id !== id));
+        API.delete('/notification/' + id);
+        setNotifications(prev => prev.filter(n => n._id !== id));
     };
+
+    useEffect(() => {
+        const getNotifications = async () => {
+            try {
+                const response = await API.get('/notification/');
+                setNotifications(response.data.notifications);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getNotifications();
+    }, [])
 
     return (
         <div className="w-full flex-col font-sans pb-16 bg-white mt-[-95px] pt-10 min-h-screen">
@@ -54,7 +70,15 @@ function Notifications() {
                 <div className="bg-[#f2f2f2] rounded-full p-1.5 flex justify-between items-center mb-10 overflow-x-auto">
                     {['All', 'Unread', 'Emergency', 'Requests', 'Info'].map((tab) => {
                         const isActive = activeTab === tab;
-                        const label = tab === 'Unread' ? `Unread (${unread_n})` : tab;
+                        const counts = {
+                            All: notifications.length,
+                            Unread: notifications.filter(n => !n.isRead).length,
+                            Emergency: notifications.filter(n => n.type === 'Emergency').length,
+                            Requests: notifications.filter(n => n.type === 'Requests').length,
+                            Info: notifications.filter(n => n.type === 'Info').length,
+                        };
+                        const count = counts[tab];
+                        const label = count > 0 ? `${tab} (${count})` : tab;
                         return (
                             <button
                                 key={tab}
@@ -75,7 +99,7 @@ function Notifications() {
                     ) : (
                         filtered_n.map((notif) => (
                             <NotificationCard 
-                                key={notif.id}
+                                key={notif._id}
                                 notif={notif}
                                 delete_n={delete_n}
                                 markAsRead={markAsRead}

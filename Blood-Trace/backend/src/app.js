@@ -3,6 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const userRouter = require('./routes/user.route');
 const donorRouter = require('./routes/donor.route');
+const notificationRouter = require('./routes/notification.route');
 const authenticateUser = require('./middlewares/auth.middleware');
 const { createUsers } = require('./controllers/user.controller')
 
@@ -16,8 +17,9 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })); // reads url par
 
 
 
-app.use('/api/v1/user', userRouter); //  http://localhost:4000/api/v1/user
-app.use('/api/v1/donor', authenticateUser, donorRouter); //  http://localhost:4000/api/v1/donor
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/donor', authenticateUser, donorRouter);
+app.use('/api/v1/notification', authenticateUser, notificationRouter);
 
 //app.use('/api/v1/create', createUsers);  //  http://localhost:4000/api/v1/create for testing and development
 

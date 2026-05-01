@@ -1,11 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
+import API from '../utils/API';
 
 function NotificationCard({ notif, delete_n, markAsRead }) {
-    const [responding, isResponding] = useState(false); // controls popup 
-    const [success, isSuccess] = useState(false); // controls success popup
+    const [responding, isResponding] = useState(false);
+    const [success, isSuccess] = useState(false);
     const [message, setMessage] = useState("");
-    const [hasResponded, setHasResponded] = useState(false); // hides respond button
+    const [hasResponded, setHasResponded] = useState(false);
+    const [locationName, setLocationName] = useState('');
+
+    useEffect(() => {
+        if (!notif.location || notif.location.length !== 2) return;
+        if (notif.type !== 'Emergency' && notif.type !== 'Requests') return;
+
+        const [lng, lat] = notif.location;
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+            .then(res => res.json())
+            .then(data => {
+                const addr = data.address;
+                const name = addr.suburb || addr.neighbourhood || addr.city_district || addr.city || addr.town || addr.county || '';
+                setLocationName(name);
+            })
+            .catch(() => {});
+    }, [notif.location, notif.type]);
 
     const getIconInfo = (type) => {
         switch (type) {
@@ -21,15 +38,16 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
     };
 
     const { icon, color } = getIconInfo(notif.type);
-    const imp_n = notif.unread && (notif.type === 'Emergency' || notif.type === 'Requests');
+    const imp_n = !notif.isRead && (notif.type === 'Emergency' || notif.type === 'Requests');
     const set_bg = imp_n ? 'bg-[#fff0f0] border-[#FFE0E0]' : 'bg-white border-gray-200';
 
     const handle_sent = () => {
+        API.post('/notification/' + notif._id + '/respond', { message: message });
         isResponding(false);
         isSuccess(true);
         setHasResponded(true);
-        if (notif.unread) {
-            markAsRead(notif.id);
+        if (!notif.isRead) {
+            markAsRead(notif._id);
         }
     };
 
@@ -38,7 +56,7 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
             <div className={`border rounded-xl p-6 relative ${set_bg}`}>
 
                 <button
-                    onClick={() => delete_n(notif.id)}
+                    onClick={() => delete_n(notif._id)}
                     className="absolute top-4 right-4 text-gray-500 hover:text-[#D92D20] transition-colors"
                     title="Delete Notification"
                 >
@@ -51,15 +69,27 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
                     </div>
 
                     <div className="flex-1">
-                        <h3 className="font-bold text-gray-900 mb-1.5">{notif.title}</h3>
+                        <h3 className="font-bold text-gray-900 mb-1">{notif.title}</h3>
+                        {notif.sender?.email && (
+                            <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-1">
+                                <Icon icon="mdi:account-outline" className="w-3.5 h-3.5" />
+                                <span>From: <span className="font-semibold text-gray-700">{notif.sender.email}</span></span>
+                            </div>
+                        )}
+                        {locationName && (
+                            <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-1">
+                                <Icon icon="mdi:map-marker-outline" className="w-3.5 h-3.5" />
+                                <span>Near: <span className="font-semibold text-gray-700">{locationName}</span></span>
+                            </div>
+                        )}
                         <p className="text-gray-700 text-sm mb-4">{notif.description}</p>
 
                         <div className="flex items-center gap-2 text-gray-500 text-xs mb-4">
                             <Icon icon="mdi:clock-outline" className="w-4 h-4" />
-                            <span>{notif.time}</span>
+                            <span>{notif.createdAt ? new Date(notif.createdAt).toLocaleString('en-PK', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Just now'}</span>
                         </div>
 
-                        {((notif.response && !hasResponded) || notif.unread) && (
+                        {((notif.response && !hasResponded) || !notif.isRead) && (
                             <div className="flex items-center gap-4 justify-between w-full md:justify-start md:gap-6 mt-2">
                                 {notif.response && !hasResponded && (
                                     <button
@@ -69,9 +99,9 @@ function NotificationCard({ notif, delete_n, markAsRead }) {
                                         Respond
                                     </button>
                                 )}
-                                {notif.unread && (
+                                {!notif.isRead && (
                                     <button
-                                        onClick={() => markAsRead(notif.id)}
+                                        onClick={() => markAsRead(notif._id)}
                                         className="text-[#D92D20] font-semibold text-sm hover:underline ml-auto md:ml-0"
                                     >
                                         Mark As Read

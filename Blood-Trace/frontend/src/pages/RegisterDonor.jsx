@@ -115,11 +115,17 @@ function RegisterDonor() {
             if (error.response) {
                 // The server responded with a status code outside of 2xx
                 console.log("Status:", error.response.status);
-                console.log("Message:", error.response.data.error);
+                console.log("Message:", error.response.data?.message || error.response.data?.error);
+
+                const msg = error.response.data?.message || error.response.data?.error || 'Something went wrong. Please try again.';
+                setErrorMessage(msg);
 
                 if (error.response.status === 403) {
                     console.error("Blocked: Check your User-Agent or IP limits.");
                 }
+            } else {
+                console.log(`[ERROR]: ${error}`);
+                setErrorMessage('Something went wrong. Please try again.');
             }
 
         }

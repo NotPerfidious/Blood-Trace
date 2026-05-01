@@ -27,8 +27,12 @@ function Landing() {
 
                 </div>
 
-                <div className="text-4xl font-bold mb-5 mt-5 max-w-120 text-center">
-                    Locate Compatible Blood Donors in <span className="text-blood-primary">Seconds</span>
+                <div className="flex items-center gap-8 mb-5 mt-5 ml-10">
+                    <Icon icon="heroicons:stethoscope" className="w-16 h-16 text-blood-primary shrink-0 opacity-75" />
+                    <div className="text-4xl font-bold max-w-110 text-center">
+                        Locate Compatible Blood Donors in <span className="text-blood-primary">Seconds</span>
+                    </div>
+                    <Icon icon="mdi:blood-bag" className="w-16 h-16 text-blood-primary shrink-0" />
                 </div>
                 {/* text-gray-700 leading-relaxed mb-4 */}
                 <div className="text-gray-700 font-medium leading-relaxed mb-7 w-3xl text-center text-lg">
