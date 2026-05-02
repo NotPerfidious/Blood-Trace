@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Icon } from '@iconify/react'
+import { useSelector } from 'react-redux'
 import helpLogo from '../assets/images/help-logo.png'
 
 const faqData = [
@@ -101,9 +102,21 @@ function FAQItem({ question, answer, isOpen, onToggle }) {
 
 function Help() {
     const [openFAQ, setOpenFAQ] = useState(null)
+    const [guestEmail, setGuestEmail] = useState('')
+    const { user, isAuthenticated } = useSelector(state => state.auth);
 
     const toggleFAQ = (index) => {
         setOpenFAQ(openFAQ === index ? null : index)
+    }
+
+    const handleEmailClick = (e) => {
+        // If it's a guest and they haven't entered an email, we could still let them click, 
+        // but it's better to use the entered email if provided.
+        // For authenticated users, we use their registered email.
+        const fromEmail = isAuthenticated ? user?.email : guestEmail;
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=support@bloodtrace.pk${fromEmail ? `&from=${fromEmail}` : ''}`;
+        
+        window.open(gmailUrl, '_blank', 'noopener,noreferrer');
     }
 
     return (
@@ -185,51 +198,58 @@ function Help() {
 
 
             {/* Still Need Help Section */}
-            <div className="bg-gray-100 py-10 mb-0">
+            <div className="bg-gray-100 py-12 mb-0">
                 <div className="max-w-3xl mx-auto px-6">
-                    <h2 className="text-xl font-bold text-gray-900 text-center mb-1">
+                    <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
                         Still Need Help?
                     </h2>
-                    <p className="text-gray-500 text-[0.85rem] text-center mb-8">
+                    <p className="text-gray-500 text-[0.9rem] text-center mb-10">
                         Our support team is here to assist you with any questions or issues.
                     </p>
 
-                    <div className="grid grid-cols-3 gap-5">
+                    <div className="flex justify-center">
 
-                        {/* Call Us */}
-                        <div className="bg-white rounded-2xl p-5 flex flex-col items-center gap-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 cursor-pointer group">
-                            <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center group-hover:bg-blood-primary transition-colors duration-300">
-                                <Icon
-                                    icon="lucide:phone"
-                                    className="w-6 h-6 text-blood-primary group-hover:text-white transition-colors duration-300"
-                                />
-                            </div>
-                            <div className="font-semibold text-[0.9rem] text-gray-800">Call Us</div>
-                            <div className="text-[0.8rem] text-gray-500">+92 300 1234567</div>
-                        </div>
-
-                        {/* Email Us */}
-                        <div className="bg-white rounded-2xl p-5 flex flex-col items-center gap-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 cursor-pointer group">
-                            <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center group-hover:bg-blood-primary transition-colors duration-300">
+                        {/* Email Us Card */}
+                        <div className="bg-white rounded-[2rem] p-10 flex flex-col items-center gap-6 shadow-xl border border-gray-100 max-w-md w-full transition-all duration-300">
+                            <div className="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center shadow-inner">
                                 <Icon
                                     icon="material-symbols:mail-outline"
-                                    className="w-6 h-6 text-blood-primary group-hover:text-white transition-colors duration-300"
+                                    className="w-12 h-12 text-blood-primary"
                                 />
                             </div>
-                            <div className="font-semibold text-[0.9rem] text-gray-800">Email Us</div>
-                            <div className="text-[0.8rem] text-gray-500">support@bloodtrace.pk</div>
-                        </div>
+                            
+                            <div className="text-center w-full">
+                                <h3 className="font-black text-2xl text-gray-900 mb-2 tracking-tight">Email Support</h3>
+                                <p className="text-gray-500 text-[0.9rem] mb-8 font-medium">Reach out to us at <span className="text-blood-primary font-bold">support@bloodtrace.pk</span></p>
 
-                        {/* Live Chat */}
-                        <div className="bg-white rounded-2xl p-5 flex flex-col items-center gap-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 cursor-pointer group">
-                            <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center group-hover:bg-blood-primary transition-colors duration-300">
-                                <Icon
-                                    icon="mdi:chat-outline"
-                                    className="w-6 h-6 text-blood-primary group-hover:text-white transition-colors duration-300"
-                                />
+                                {!isAuthenticated && (
+                                    <div className="w-full mb-6">
+                                        <label className="block text-left text-[0.75rem] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Your Email Address</label>
+                                        <input 
+                                            type="email" 
+                                            value={guestEmail}
+                                            onChange={(e) => setGuestEmail(e.target.value)}
+                                            placeholder="Enter your email to send from..."
+                                            className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:border-blood-primary/30 focus:bg-white transition-all text-[0.95rem] text-gray-700 font-medium"
+                                        />
+                                    </div>
+                                )}
+
+                                <button 
+                                    onClick={handleEmailClick}
+                                    className="w-full bg-blood-primary text-white font-bold text-[1.1rem] py-4 rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-100 active:scale-95 cursor-pointer flex items-center justify-center gap-2 group"
+                                >
+                                    <span>Send Email</span>
+                                    <Icon icon="lucide:arrow-right" className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </button>
+
+                                {isAuthenticated && (
+                                    <div className="mt-4 flex items-center justify-center gap-2 text-[0.8rem] text-gray-400 font-medium">
+                                        <Icon icon="mdi:check-circle" className="text-green-500 w-4 h-4" />
+                                        <span>Mailing as <span className="text-gray-600 font-bold">{user.email}</span></span>
+                                    </div>
+                                )}
                             </div>
-                            <div className="font-semibold text-[0.9rem] text-gray-800">Live Chat</div>
-                            <div className="text-[0.8rem] text-gray-500">Available 24/7</div>
                         </div>
 
                     </div>
