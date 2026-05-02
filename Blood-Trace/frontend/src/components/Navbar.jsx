@@ -1,11 +1,10 @@
 import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'
 import logo from '../assets/images/logo.png'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { logout } from '../features/auth/authSlice';
 import API from '../utils/API';
 
@@ -17,13 +16,17 @@ function Navbar() {
     const [unreadCount, setUnreadCount] = useState(0);
 
     const { isAuthenticated, user } = useSelector(state => state.auth);
+    const location = useLocation();
 
     useEffect(() => {
         if (!isAuthenticated) { setUnreadCount(0); return; }
         API.get('/notification/')
-            .then(res => setUnreadCount(res.data.notifications.filter(n => !n.isRead).length))
+            .then(res => {
+                const unread = res.data.notifications.filter(n => !n.isRead && ['Emergency', 'Requests', 'Info'].includes(n.type)).length;
+                setUnreadCount(unread);
+            })
             .catch(() => {});
-    }, [isAuthenticated]);
+    }, [isAuthenticated, location.pathname]);
 
     const checkIsAuthenticated = (e) => { // user clicking on nav button will have no effect
         if (!isAuthenticated) {

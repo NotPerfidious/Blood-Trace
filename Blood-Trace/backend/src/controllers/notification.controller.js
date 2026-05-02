@@ -205,7 +205,7 @@ const sendEmergencyAlert = async (req, res) => {
             type: 'Emergency',
             title: 'Urgent Blood Request',
             description: 'An emergency blood donation is needed in your area. Please respond immediately if you are available to donate.',
-            response: false,
+            response: true,
             ...(location && { location }),
         }));
 

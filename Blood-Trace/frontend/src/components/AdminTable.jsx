@@ -92,7 +92,7 @@ function AdminUserTable() {
               <th className="pb-3 px-4">Contact</th>
               <th className="pb-3 px-4 text-center">Blood Type</th>
               <th className="pb-3 px-4">Status</th>
-              <th className="pb-3 px-4">Registered</th>
+              <th className="pb-3 px-4">Registration Date</th>
               <th className="pb-3 pl-4 text-right">Actions</th>
             </tr>
           </thead>
