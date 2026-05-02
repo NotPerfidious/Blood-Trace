@@ -36,7 +36,23 @@ const registerDonor = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(`[ERROR in registerDonor]: Internal server error. ${error}`);
+        console.error(`[ERROR in registerDonor]: ${error}`);
+        
+        // Handle Mongoose validation errors
+        if (error.name === 'ValidationError') {
+            const firstError = Object.values(error.errors)[0].message;
+            return res.status(400).json({
+                message: firstError
+            });
+        }
+
+        // Handle Duplicate Key error (though we check manually, this is a safety net)
+        if (error.code === 11000) {
+            return res.status(400).json({
+                message: "You are already registered as a donor"
+            });
+        }
+
         return res.status(500).json({
             message: "Internal server error"
         });

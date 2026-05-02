@@ -177,7 +177,7 @@ function RegisterDonor() {
 
                         <div className="mt-5 flex flex-col">
                             <label htmlFor="user-phone-number" className="text-lg">Phone Number</label>
-                            <input onChange={(e) => setContactNumber(e.target.value)} placeholder="+92 300 1234567" className="bg-gray-200 mt-1 p-2 pl-4 rounded-lg placeholder:text-sm" id="user-phone-number" type="text" />
+                            <input onChange={(e) => setContactNumber(e.target.value)} placeholder="0300-1234567" className="bg-gray-200 mt-1 p-2 pl-4 rounded-lg placeholder:text-sm" id="user-phone-number" type="text" />
                         </div>
 
 

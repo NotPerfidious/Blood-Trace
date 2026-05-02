@@ -39,9 +39,10 @@ const donorSchema = new Schema(
             required: true,
             validate: {
                 validator: (v) => {
-                    return /^(\+92|0|92)?3\d{9}$/.test(v.replace(/\s+/g, ''));
+                    const cleaned = v.replace(/[\s-]/g, ''); // Remove spaces and hyphens
+                    return /^(\+92|0|92)?3\d{9}$/.test(cleaned);
                 },
-                message: 'Please enter a valid mobile number (e.g., 03001234567 or +923001234567).'
+                message: 'Please enter a valid Pakistani mobile number (e.g., 0300-1234567).'
             }
         },
 
