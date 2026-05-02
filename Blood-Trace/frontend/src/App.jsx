@@ -75,14 +75,13 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="about" element={<About />} />
             <Route path="help" element={<Help />} />
-            <Route path="accessibility" element={<AccessibilitySettings />} />
-
             <Route element={<ProtectedRoute />}>
 
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="register-donor" element={<RegisterDonor />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="accessibility" element={<AccessibilitySettings />} />
 
               <Route element={<AdminRoute />}>
                 <Route path="admin" element={<AdminDashboard />} />

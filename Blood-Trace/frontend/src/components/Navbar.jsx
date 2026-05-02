@@ -15,6 +15,7 @@ function Navbar() {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isPopping, setIsPopping] = useState(true);
     const [unreadCount, setUnreadCount] = useState(0);
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
 
     const { isAuthenticated, user } = useSelector(state => state.auth);
     const location = useLocation();
@@ -168,8 +169,9 @@ function Navbar() {
                 </NavLink>
 
                 <div className='flex items-center gap-2'>
-                    <NavLink to="/accessibility" className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
-                    ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100'}
+                    <NavLink to="/accessibility" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
+                    ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
+                            : 'text-gray-400 cursor-default'}
                     `} >
                         <Icon icon='meteor-icons:gear' className="w-5.5 h-5.5" />
                     </NavLink>
@@ -190,7 +192,7 @@ function Navbar() {
 
                     {isAuthenticated && (
                         <button
-                            onClick={handleLogout}
+                            onClick={() => setShowLogoutModal(true)}
                             className="ml-2 flex justify-center items-center gap-1.5 p-1.5 px-3 rounded-md bg-red-100 text-blood-primary hover:bg-red-200 transition-colors font-medium text-sm cursor-pointer"
                         >
                             <Icon icon="solar:logout-2-outline" className="w-5 h-5" />
@@ -208,6 +210,38 @@ function Navbar() {
             <div className="fixed top-10 right-10 bg-white border border-gray-200 shadow-xl px-6 py-4 rounded-xl flex items-center gap-4 z-99999 transition-all">
                 <Icon icon="eos-icons:loading" className="w-6 h-6 text-blood-primary" />
                 <span className="font-semibold text-gray-700 text-lg">Logging Out...</span>
+            </div>
+        )}
+
+        {/* Logout Confirmation Modal */}
+        {showLogoutModal && (
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[10000] p-4 transition-all animate-in fade-in duration-300">
+                <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all scale-100 opacity-100 animate-in zoom-in-95 duration-300 border border-gray-100">
+                    <div className="p-8">
+                        <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Icon icon="solar:logout-2-bold-duotone" className="w-10 h-10 text-blood-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 text-center mb-6">Are you sure you want to log out?</h3>
+                        
+                        <div className="flex flex-col gap-3">
+                            <button 
+                                onClick={() => {
+                                    setShowLogoutModal(false);
+                                    handleLogout();
+                                }}
+                                className="w-full px-6 py-4 rounded-2xl bg-blood-primary text-white font-bold hover:bg-red-700 transition-all cursor-pointer shadow-xl shadow-red-200 active:scale-95"
+                            >
+                                Yes, Logout
+                            </button>
+                            <button 
+                                onClick={() => setShowLogoutModal(false)}
+                                className="w-full px-6 py-4 rounded-2xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition-all cursor-pointer active:scale-95"
+                            >
+                                No, stay logged in
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         )}
         </>
