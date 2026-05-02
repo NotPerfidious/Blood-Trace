@@ -14,6 +14,7 @@ import Help from './pages/Help'
 import AccessibilitySettings from './pages/AccessibilitySettings'
 import Profile from './pages/Profile'
 import checkAuth from './features/auth/checkAuth'
+import { fetchAccessibilitySettings, resetAccessibility } from './features/accessibility/accessibilitySlice'
 import LoadingPulse from './components/LoadingPulse'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminRoute from './components/AdminRoute'
@@ -21,30 +22,43 @@ import AdminRoute from './components/AdminRoute'
 function App() {
 
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
+  const { loading, isAuthenticated } = useSelector((state) => state.auth);
+  const accessibility = useSelector((state) => state.accessibility);
 
   useEffect(() => {
-    // console.log('App mounted')
     dispatch(checkAuth())
   }, [dispatch])
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchAccessibilitySettings());
+    } else {
+      dispatch(resetAccessibility());
+    }
+  }, [isAuthenticated, dispatch]);
+
 
   useEffect(() => {
-    // Apply accessibility settings on load
+    // Apply accessibility settings globally when they change in Redux
     const root = document.documentElement;
-    const highContrast = localStorage.getItem('accessibility_highContrast') === 'true';
-    const reduceMotion = localStorage.getItem('accessibility_reduceMotion') === 'true';
-    const textSize = localStorage.getItem('accessibility_textSize') || 'Normal';
-    const simplifyUI = localStorage.getItem('accessibility_simplifyUI') === 'true';
-    const screenReader = localStorage.getItem('accessibility_screenReader') === 'true';
+    const { highContrast, reduceMotion, textSize, simplifyUI, screenReader } = accessibility;
 
     if (highContrast) root.classList.add('high-contrast');
+    else root.classList.remove('high-contrast');
+
     if (reduceMotion) root.classList.add('reduce-motion');
+    else root.classList.remove('reduce-motion');
+
     if (textSize === 'Large') root.style.fontSize = '110%';
     else if (textSize === 'Extra Large') root.style.fontSize = '125%';
+    else root.style.fontSize = '100%';
+
     if (simplifyUI) root.classList.add('simplify-ui');
+    else root.classList.remove('simplify-ui');
+
     if (screenReader) root.classList.add('screen-reader-opt');
-  }, []);
+    else root.classList.remove('screen-reader-opt');
+  }, [accessibility]);
 
   if (loading) {
     return <LoadingPulse />;

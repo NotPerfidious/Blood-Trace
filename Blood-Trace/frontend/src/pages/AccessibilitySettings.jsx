@@ -1,43 +1,47 @@
 import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchAccessibilitySettings, updateAccessibilitySettings } from '../features/accessibility/accessibilitySlice'
 import ToggleSwitch from '../components/ToggleSwitch'
 
 function AccessibilitySettings() {
-    const [highContrast, setHighContrast] = useState(() => localStorage.getItem('accessibility_highContrast') === 'true');
-    const [reduceMotion, setReduceMotion] = useState(() => localStorage.getItem('accessibility_reduceMotion') === 'true');
-    const [textSize, setTextSize] = useState(() => localStorage.getItem('accessibility_textSize') || 'Normal');
-    const [simplifyUI, setSimplifyUI] = useState(() => localStorage.getItem('accessibility_simplifyUI') === 'true');
-    const [screenReader, setScreenReader] = useState(() => localStorage.getItem('accessibility_screenReader') === 'true');
+    const dispatch = useDispatch();
+    const settings = useSelector((state) => state.accessibility);
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
+    // Local state for form editing before saving
+    const [highContrast, setHighContrast] = useState(settings.highContrast);
+    const [reduceMotion, setReduceMotion] = useState(settings.reduceMotion);
+    const [textSize, setTextSize] = useState(settings.textSize);
+    const [simplifyUI, setSimplifyUI] = useState(settings.simplifyUI);
+    const [screenReader, setScreenReader] = useState(settings.screenReader);
     const [showPopup, setShowPopup] = useState(false);
 
-    const applySettings = (settings) => {
-        const root = document.documentElement;
-        
-        if (settings.highContrast) root.classList.add('high-contrast');
-        else root.classList.remove('high-contrast');
+    // Sync local state when Redux state changes (e.g., after fetching)
+    useEffect(() => {
+        setHighContrast(settings.highContrast);
+        setReduceMotion(settings.reduceMotion);
+        setTextSize(settings.textSize);
+        setSimplifyUI(settings.simplifyUI);
+        setScreenReader(settings.screenReader);
+    }, [settings]);
 
-        if (settings.reduceMotion) root.classList.add('reduce-motion');
-        else root.classList.remove('reduce-motion');
-
-        if (settings.textSize === 'Large') root.style.fontSize = '110%';
-        else if (settings.textSize === 'Extra Large') root.style.fontSize = '125%';
-        else root.style.fontSize = '100%';
-
-        if (settings.simplifyUI) root.classList.add('simplify-ui');
-        else root.classList.remove('simplify-ui');
-
-        if (settings.screenReader) root.classList.add('screen-reader-opt');
-        else root.classList.remove('screen-reader-opt');
-    };
+    useEffect(() => {
+        if (isAuthenticated) {
+            dispatch(fetchAccessibilitySettings());
+        }
+    }, [dispatch, isAuthenticated]);
 
     const handleSave = () => {
-        localStorage.setItem('accessibility_highContrast', highContrast);
-        localStorage.setItem('accessibility_reduceMotion', reduceMotion);
-        localStorage.setItem('accessibility_textSize', textSize);
-        localStorage.setItem('accessibility_simplifyUI', simplifyUI);
-        localStorage.setItem('accessibility_screenReader', screenReader);
-
-        applySettings({ highContrast, reduceMotion, textSize, simplifyUI, screenReader });
+        const newSettings = { highContrast, reduceMotion, textSize, simplifyUI, screenReader };
+        
+        if (isAuthenticated) {
+            dispatch(updateAccessibilitySettings(newSettings));
+        } else {
+            // If guest, we could still save to localStorage if desired, 
+            // but the user specifically asked for DB persistence for logged-in users.
+            // For now, let's just show the popup.
+        }
 
         setShowPopup(true);
         setTimeout(() => setShowPopup(false), 3000);

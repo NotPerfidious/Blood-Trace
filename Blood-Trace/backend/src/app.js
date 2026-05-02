@@ -5,6 +5,7 @@ const userRouter = require('./routes/user.route');
 const donorRouter = require('./routes/donor.route');
 const notificationRouter = require('./routes/notification.route');
 const adminRouter = require('./routes/admin.route');
+const accessibilityRouter = require('./routes/accessibility.route');
 const authenticateUser = require('./middlewares/auth.middleware');
 const isAdmin = require('./middlewares/isAdmin.middleware');
 const { createUsers } = require('./controllers/user.controller')
@@ -20,6 +21,7 @@ app.use('/api/v1/user', userRouter);
 app.use('/api/v1/donor', authenticateUser, donorRouter);
 app.use('/api/v1/notification', authenticateUser, notificationRouter);
 app.use('/api/v1/admin', authenticateUser, isAdmin, adminRouter);
+app.use('/api/v1/accessibility', authenticateUser, accessibilityRouter);
 
 //app.use('/api/v1/create', createUsers);  //  http://localhost:4000/api/v1/create for testing and development
 

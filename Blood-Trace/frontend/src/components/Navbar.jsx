@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
+import { resetAccessibility } from '../features/accessibility/accessibilitySlice';
 import API from '../utils/API';
 
 
@@ -48,6 +49,7 @@ function Navbar() {
                 
                 setTimeout(() => {
                     dispatch(logout());
+                    dispatch(resetAccessibility());
                     setIsLoggingOut(false);
                 }, 100);
                 
