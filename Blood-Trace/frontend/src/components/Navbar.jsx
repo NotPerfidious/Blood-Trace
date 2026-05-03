@@ -7,7 +7,7 @@
 import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'
 import logo from '../assets/images/logo.png'
-import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux';
@@ -20,6 +20,7 @@ function Navbar() {
     const [activeTab, setActiveTab] = useState('')
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isPopping, setIsPopping] = useState(true);
+    const [isDonorPopping, setIsDonorPopping] = useState(true);
     const [unreadCount, setUnreadCount] = useState(0);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -38,6 +39,12 @@ function Navbar() {
 
     const checkIsAuthenticated = (e) => { // user clicking on nav button will have no effect
         if (!isAuthenticated) {
+            e.preventDefault();
+        }
+    }
+
+    const checkIsDonor = (e) => {
+        if (!isAuthenticated || !isDonor) {
             e.preventDefault();
         }
     }
@@ -97,10 +104,28 @@ function Navbar() {
                 {!isAuthenticated && isPopping && (
                     <div className="fixed top-[70px] right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
                         <Icon icon="mdi:lock-outline" className="w-5 h-5 text-blood-primary" />
-                        <span className="font-semibold text-gray-700 text-sm">Please Login / SignUp to access all features</span>
+                        <span className="font-semibold text-gray-700 text-sm">
+                            Please <Link to="/login" className="text-blood-primary hover:underline" onClick={() => setIsPopping(false)}>Login</Link> / <Link to="/register" className="text-blood-primary hover:underline" onClick={() => setIsPopping(false)}>SignUp</Link> to access all features
+                        </span>
 
                         <button 
                             onClick={() => setIsPopping(false)} 
+                            className="absolute top-1/2 -translate-y-1/2 right-3 p-1 rounded-full text-gray-400 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer flex items-center justify-center"
+                        >
+                            <Icon icon="material-symbols:close" className="w-4.5 h-4.5" />
+                        </button>
+                    </div>
+                )}
+
+                {isAuthenticated && !isDonor && isDonorPopping && (
+                    <div className="fixed top-[70px] right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
+                        <Icon icon="lucide:settings" className="w-5 h-5 text-blood-primary" />
+                        <span className="font-semibold text-gray-700 text-sm">
+                            <Link to="/register-donor" className="text-blood-primary hover:underline" onClick={() => setIsDonorPopping(false)}>Register as a donor</Link> to access accessibility settings
+                        </span>
+
+                        <button 
+                            onClick={() => setIsDonorPopping(false)} 
                             className="absolute top-1/2 -translate-y-1/2 right-3 p-1 rounded-full text-gray-400 hover:text-red-700 hover:bg-red-50 transition-colors cursor-pointer flex items-center justify-center"
                         >
                             <Icon icon="material-symbols:close" className="w-4.5 h-4.5" />
@@ -175,8 +200,8 @@ function Navbar() {
                 </NavLink>
 
                 <div className='flex items-center gap-2'>
-                    <NavLink to="/accessibility" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
-                    ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
+                    <NavLink to="/accessibility" onClick={checkIsDonor} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
+                    ${(isAuthenticated && isDonor) ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
                             : 'text-gray-400 cursor-default'}
                     `} >
                         <Icon icon='meteor-icons:gear' className="w-5.5 h-5.5" />
@@ -223,7 +248,7 @@ function Navbar() {
 
         {/* Logout Confirmation Modal */}
         {showLogoutModal && (
-            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[10000] p-4 transition-all animate-in fade-in duration-300">
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-10000 p-4 transition-all animate-in fade-in duration-300">
                 <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all scale-100 opacity-100 animate-in zoom-in-95 duration-300 border border-gray-100">
                     <div className="p-8">
                         <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">

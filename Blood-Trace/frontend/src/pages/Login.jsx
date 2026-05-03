@@ -63,8 +63,18 @@ function Login() {
     };
 
     return (
-        <div className="flex justify-center items-center font-sans mt-[-75px] pt-13 mb-[-20px] min-h-screen bg-[#f9f9f9]">
-            <div className="w-full max-w-sm bg-white p-8 border border-gray-200 rounded-lg shadow-sm">
+        <div className="relative overflow-hidden flex justify-center items-center font-sans mt-[-75px] pt-13 mb-[-5px] min-h-screen bg-[#f9f9f9]">
+            
+            {/* Ribbon (Template) */}
+            <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden flex justify-center items-center z-0">
+                <svg className="absolute w-[200%] min-w-[1200px] opacity-[0.15] transform rotate-[-8deg] drop-shadow-2xl" viewBox="0 0 1000 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,200 C250,350 350,50 600,200 C850,350 1000,100 1000,100 L1000,250 C850,400 750,100 500,250 C250,400 150,100 0,250 Z" fill="#D92D20" />
+                    <path d="M0,150 C250,300 350,0 600,150 C850,300 1000,50 1000,50 L1000,120 C850,270 750,-30 500,120 C250,270 150,-30 0,120 Z" fill="#b91c1c" fillOpacity="0.7" />
+                    <path d="M0,250 C200,400 400,100 700,250 C900,350 1000,200 1000,200 L1000,270 C900,420 600,120 400,270 C200,420 100,120 0,270 Z" fill="#fca5a5" fillOpacity="0.5" />
+                </svg>
+            </div>
+
+            <div className="relative z-10 w-full max-w-sm bg-white/95 backdrop-blur-md p-8 border border-red-50 rounded-2xl shadow-2xl">
                 <h1 className="text-2xl font-bold text-center text-gray-900 mb-6">Welcome Back</h1>
 
                 {successMsg && (
