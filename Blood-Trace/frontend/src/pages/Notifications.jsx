@@ -1,3 +1,8 @@
+/**
+ * Notifications Page
+ * Displays a list of user notifications, allowing filtering by type (Emergency, Requests, Info)
+ * and read status. Integrates with the backend for marking as read and deletion.
+ */
 import { useState, useMemo, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import NotificationCard from '../components/NotificationCard';

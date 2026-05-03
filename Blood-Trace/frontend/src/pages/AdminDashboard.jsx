@@ -1,3 +1,8 @@
+/**
+ * Admin Dashboard Page
+ * Provides a high-level overview of system metrics, including total donors,
+ * active requests, and blood type distribution through visual charts and data tables.
+ */
 import { useState, useEffect } from 'react';
 import AdminUserTable from '../components/AdminTable';
 import { Icon } from '@iconify/react';

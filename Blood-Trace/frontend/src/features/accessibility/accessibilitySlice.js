@@ -1,3 +1,8 @@
+/**
+ * Accessibility Redux Slice
+ * Manages the global state for accessibility settings. Includes async thunks for
+ * fetching and updating settings from the backend API.
+ */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import API from '../../utils/API';
 

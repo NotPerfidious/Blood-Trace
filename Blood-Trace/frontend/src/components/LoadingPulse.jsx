@@ -1,3 +1,8 @@
+/**
+ * Loading Pulse Component
+ * A visual loading indicator featuring a pulsing red circle, used primarily
+ * during session verification or data fetching states.
+ */
 const LoadingPulse = () => {
     return (
         <div className="flex items-center justify-center min-h-[200px]">

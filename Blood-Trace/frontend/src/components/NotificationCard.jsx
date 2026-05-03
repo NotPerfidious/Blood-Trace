@@ -1,3 +1,8 @@
+/**
+ * Notification Card Component
+ * Displays individual notification details, including type-based icons, sender info,
+ * and location. Handles user interactions like marking as read, deleting, and responding.
+ */
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import API from '../utils/API';

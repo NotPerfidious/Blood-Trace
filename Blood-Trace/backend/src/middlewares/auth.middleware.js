@@ -1,3 +1,8 @@
+/**
+ * Authentication Middleware
+ * Verifies the JWT access token from signed cookies to ensure the user is authenticated.
+ * Attaches the decoded user information to the request object.
+ */
 const jwt = require('jsonwebtoken');
 
 

@@ -1,3 +1,8 @@
+/**
+ * Static Application Data
+ * Contains blood donor sample data, blood type compatibility mapping,
+ * and the list of supported blood types used throughout the application.
+ */
 const bloodDonors = [
     {
         id: 1,

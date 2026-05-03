@@ -1,3 +1,8 @@
+/**
+ * Login Page
+ * Handles user authentication by taking email and password, validating with the backend,
+ * and updating the global Redux state with user information upon success.
+ */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../utils/API';

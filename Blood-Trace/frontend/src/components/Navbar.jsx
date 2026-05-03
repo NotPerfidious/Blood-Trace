@@ -1,3 +1,9 @@
+/**
+ * Navbar Component
+ * Provides navigation links across the application. Handles authentication-dependent
+ * visibility of links (Find Donors, Register, Notifications, Profile, Admin)
+ * and includes a logout mechanism with a confirmation modal.
+ */
 import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'
 import logo from '../assets/images/logo.png'

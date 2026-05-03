@@ -1,3 +1,8 @@
+/**
+ * Express Application Setup
+ * Configures middleware (CORS, JSON parsing, cookies) and registers API routes
+ * for users, donors, notifications, and admin functionality.
+ */
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser')

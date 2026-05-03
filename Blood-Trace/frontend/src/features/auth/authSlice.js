@@ -1,3 +1,8 @@
+/**
+ * Authentication Redux Slice
+ * Manages the global state for user authentication, including user details,
+ * authentication status, donor status, and loading states.
+ */
 import { createSlice } from '@reduxjs/toolkit'
 import checkAuth from './checkAuth';
 

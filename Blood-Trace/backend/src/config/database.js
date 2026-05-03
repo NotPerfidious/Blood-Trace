@@ -1,3 +1,7 @@
+/**
+ * Database Configuration
+ * Handles the connection to MongoDB using Mongoose with error handling and logging.
+ */
 const mongoose = require('mongoose');
 
 const connectDB = async () => {

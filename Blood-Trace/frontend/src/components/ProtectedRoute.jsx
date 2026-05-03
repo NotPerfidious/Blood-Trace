@@ -1,3 +1,8 @@
+/**
+ * Protected Route Wrapper
+ * Ensures that only authenticated users can access certain parts of the application.
+ * Redirects unauthenticated users to the login page while handling loading states.
+ */
 import LoadingPulse from "./LoadingPulse";
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";

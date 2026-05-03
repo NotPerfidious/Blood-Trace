@@ -1,3 +1,8 @@
+/**
+ * Notification Model
+ * Defines the Mongoose schema for user notifications, covering emergencies,
+ * requests, and general information, including response tracking.
+ */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

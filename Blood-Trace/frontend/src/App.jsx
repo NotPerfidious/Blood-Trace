@@ -1,3 +1,8 @@
+/**
+ * Main Application Component
+ * Sets up the React Router, manages global authentication and accessibility state,
+ * and applies accessibility settings to the document root.
+ */
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'

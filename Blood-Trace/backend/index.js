@@ -1,3 +1,8 @@
+/**
+ * Server Entry Point
+ * This file initializes the environment variables, connects to the MongoDB database,
+ * and starts the Express server listening on the specified port.
+ */
 const dotenv = require('dotenv');
 dotenv.config();
 

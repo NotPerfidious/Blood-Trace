@@ -1,3 +1,8 @@
+/**
+ * Accessibility Model
+ * Defines the Mongoose schema for storing user accessibility preferences
+ * such as high contrast, reduced motion, and text size.
+ */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

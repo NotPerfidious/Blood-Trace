@@ -1,3 +1,8 @@
+/**
+ * Notification Routes
+ * Defines API endpoints for retrieving, managing, and responding to notifications,
+ * as well as sending direct blood requests and emergency alerts.
+ */
 const { getNotifications, markAsRead, markAllAsRead, deleteNotification, respondToNotification, sendDirectRequest, sendEmergencyAlert } = require('../controllers/notification.controller');
 const Router = require('express');
 

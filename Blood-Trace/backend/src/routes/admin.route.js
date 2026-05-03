@@ -1,3 +1,8 @@
+/**
+ * Admin Routes
+ * Defines API endpoints for administrative tasks such as viewing dashboard stats,
+ * blood distribution, and managing (deleting) users or donors.
+ */
 const Router = require('express');
 const { getStats, getBloodDistribution, getDonors, deleteDonor, deleteUser } = require('../controllers/admin.controller');
 

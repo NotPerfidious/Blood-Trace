@@ -1,3 +1,8 @@
+/**
+ * Authentication Provider Thunk
+ * An async thunk that verifies the user's authentication status by making
+ * a request to the '/me' endpoint. Returns user details on success.
+ */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from '../../utils/API';
 

@@ -1,3 +1,8 @@
+/**
+ * Notification Controller
+ * Handles user notifications including fetching, marking as read, responding to requests,
+ * and sending direct or emergency blood donation alerts.
+ */
 const Notification = require('../models/notification.model');
 const Donor = require('../models/donor.model');
 

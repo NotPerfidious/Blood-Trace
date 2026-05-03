@@ -1,3 +1,7 @@
+/**
+ * Admin Authorization Middleware
+ * Checks if the authenticated user has an 'admin' role to restrict access to certain routes.
+ */
 const isAdmin = (req, res, next) => {
 
     if (req.user?.role !== 'admin') {

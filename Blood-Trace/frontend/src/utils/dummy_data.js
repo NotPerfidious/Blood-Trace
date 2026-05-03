@@ -1,3 +1,8 @@
+/**
+ * Dummy Application Data
+ * Provides mock notifications, statistics, and user data for development,
+ * testing, and UI demonstration purposes.
+ */
 export const d_Notifications = [
   {
     id: 1,

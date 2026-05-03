@@ -1,3 +1,8 @@
+/**
+ * Axios API Instance
+ * Configures a custom Axios instance with base URL, timeout, and credentials
+ * for consistent API requests to the backend.
+ */
 import axios from 'axios';
 
 

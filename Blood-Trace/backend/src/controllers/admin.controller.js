@@ -1,3 +1,8 @@
+/**
+ * Admin Controller
+ * Provides administrative functionality including dashboard statistics,
+ * blood type distribution data, and management (deletion) of users and donors.
+ */
 const Donor = require('../models/donor.model');
 const Notification = require('../models/notification.model');
 const User = require('../models/user.model');

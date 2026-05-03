@@ -1,3 +1,8 @@
+/**
+ * Admin Donor Management Table
+ * Displays a searchable and filterable table of all registered donors.
+ * Provides administrative actions like deleting donor records and viewing status details.
+ */
 import { useState, useMemo, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import API from '../utils/API';

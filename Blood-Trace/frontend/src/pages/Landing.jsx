@@ -1,3 +1,8 @@
+/**
+ * Landing Page
+ * The introductory page for the application. Highlights key metrics, features,
+ * and the problem-solving approach of the Blood-Trace system.
+ */
 import { Icon } from "@iconify/react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";

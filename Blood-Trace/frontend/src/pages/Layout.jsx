@@ -1,3 +1,8 @@
+/**
+ * App Layout Component
+ * Serves as the master template for the application, providing a persistent
+ * Navbar and Footer while rendering nested routes through the Outlet.
+ */
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
 import { Outlet } from 'react-router-dom';

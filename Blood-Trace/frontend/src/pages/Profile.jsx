@@ -1,3 +1,8 @@
+/**
+ * User Profile Page
+ * Displays and allows editing of donor-specific information, including contact details,
+ * notification preferences, and availability status. Also calculates donation eligibility.
+ */
 import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react'
 import { useSelector, useDispatch } from 'react-redux'

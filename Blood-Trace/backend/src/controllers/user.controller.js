@@ -1,3 +1,8 @@
+/**
+ * User Controller
+ * Manages user authentication including registration, login, and logout.
+ * It handles password comparison, JWT generation, and cookie management.
+ */
 const User = require('../models/user.model');
 
 

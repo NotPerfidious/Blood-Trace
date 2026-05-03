@@ -1,3 +1,8 @@
+/**
+ * Footer Component
+ * Displays the application's brand information, quick links, resources,
+ * and contact details. It also includes social-style saving lives message.
+ */
 import footerLogo from '../assets/images/footer-logo.png'
 import BloodTraceLogo from './BloodTraceLogo.jsx'
 import { Icon } from '@iconify/react'

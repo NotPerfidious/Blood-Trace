@@ -1,3 +1,8 @@
+/**
+ * Donor Controller
+ * Manages donor-related operations including registration, checking donor status,
+ * searching for donors by proximity, and updating donor profiles.
+ */
 const Donor = require('../models/donor.model');
 
 

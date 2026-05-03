@@ -1,3 +1,8 @@
+/**
+ * Registration Page
+ * Allows new users to create an account by providing an email and password.
+ * Handles validation and interacts with the backend to register the user.
+ */
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { Link, useNavigate } from 'react-router-dom';

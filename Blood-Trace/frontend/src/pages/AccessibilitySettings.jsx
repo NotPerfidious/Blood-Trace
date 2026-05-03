@@ -1,3 +1,8 @@
+/**
+ * Accessibility Settings Page
+ * Allows users to customize visual and interface settings such as high contrast,
+ * text size, and motion reduction. Settings are persisted to the backend for authenticated users.
+ */
 import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react'
 import { useSelector, useDispatch } from 'react-redux'

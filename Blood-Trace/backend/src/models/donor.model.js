@@ -1,3 +1,8 @@
+/**
+ * Donor Model
+ * Defines the Mongoose schema for donor profiles, including personal info,
+ * blood type, geospatial location, contact details, and notification preferences.
+ */
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 

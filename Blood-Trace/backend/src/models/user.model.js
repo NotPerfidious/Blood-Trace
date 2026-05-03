@@ -1,3 +1,8 @@
+/**
+ * User Model
+ * Defines the Mongoose schema for user accounts, including email, hashed password,
+ * and role-based access control. Includes methods for password hashing and JWT generation.
+ */
 const mongoose = require('mongoose');
 const bcryptjs = require('bcryptjs');
 const Schema = mongoose.Schema;

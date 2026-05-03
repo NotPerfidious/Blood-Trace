@@ -1,3 +1,8 @@
+/**
+ * Register Donor Page
+ * Allows authenticated users to register as blood donors by providing personal info,
+ * blood type, and location. It uses geocoding to determine coordinates from the area/city.
+ */
 import { Icon } from "@iconify/react";
 import { bloodTypes } from "../utils/data";
 import { useEffect, useRef, useState } from "react";

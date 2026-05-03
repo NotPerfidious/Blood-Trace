@@ -1,3 +1,8 @@
+/**
+ * Donor Marker Utility
+ * Generates a custom Leaflet DivIcon with an SVG representation of a donor pin.
+ * Color-codes the marker based on donor availability and compatibility with the recipient.
+ */
 import L from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { bloodCompatibility } from './data';

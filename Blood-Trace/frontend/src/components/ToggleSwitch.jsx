@@ -1,3 +1,8 @@
+/**
+ * Toggle Switch Component
+ * A reusable binary switch component used for boolean settings like
+ * donor availability and notification preferences.
+ */
 import { useState } from 'react';
 
 const ToggleSwitch = ({ isOn, setIsOn }) => {

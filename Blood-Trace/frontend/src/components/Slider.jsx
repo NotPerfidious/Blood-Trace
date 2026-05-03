@@ -1,5 +1,10 @@
 
 
+/**
+ * Search Radius Slider
+ * A custom-styled range input component used for adjusting the donor search radius.
+ * Features dynamic background sizing and consistent styling across browsers.
+ */
 const Slider = ({value, setValue}) => {
     const min = 1;
     const max = 50;

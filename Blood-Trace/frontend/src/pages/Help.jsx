@@ -1,3 +1,8 @@
+/**
+ * Help & Support Page
+ * Provides a comprehensive FAQ section and a quick start guide for users.
+ * Includes an email support feature that adapts based on authentication status.
+ */
 import { useState } from 'react'
 import { Icon } from '@iconify/react'
 import { useSelector } from 'react-redux'

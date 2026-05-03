@@ -1,3 +1,8 @@
+/**
+ * React Entry Point
+ * Renders the App component into the root element and provides the Redux store
+ * to the entire application using the Provider component.
+ */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'

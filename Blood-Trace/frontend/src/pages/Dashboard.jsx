@@ -1,3 +1,8 @@
+/**
+ * Dashboard Page
+ * Provides the main interface for finding blood donors. Includes a map view,
+ * blood type filtering, search radius adjustment, and emergency alert broadcasting.
+ */
 import { Icon } from "@iconify/react";
 import Slider from "../components/Slider";
 import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';

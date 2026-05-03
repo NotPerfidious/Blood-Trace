@@ -1,3 +1,7 @@
+/**
+ * Accessibility Routes
+ * Defines API endpoints for fetching and updating user-specific accessibility settings.
+ */
 const express = require('express');
 const router = express.Router();
 const { getSettings, updateSettings } = require('../controllers/accessibility.controller');

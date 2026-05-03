@@ -1,3 +1,8 @@
+/**
+ * Accessibility Controller
+ * Manages user-specific accessibility settings (high contrast, text size, etc.)
+ * by providing endpoints to retrieve and update settings stored in the database.
+ */
 const AccessibilitySettings = require('../models/accessibility.model');
 
 /**

@@ -1,3 +1,8 @@
+/**
+ * Global Stylesheet
+ * Defines the application's theme, base typography, Tailwind utilities,
+ * Leaflet map overrides, and specialized accessibility styles (high contrast, simple UI, etc.).
+ */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";

@@ -1,3 +1,8 @@
+/**
+ * About Page
+ * Describes the mission, features, and target audience of the Blood-Trace project.
+ * Focuses on explaining the UI/UX design rationale for the visual donor locator.
+ */
 import logo from '../assets/images/logo.png'
 import BloodTraceLogo from '../components/BloodTraceLogo'
 import { Icon } from '@iconify/react'
