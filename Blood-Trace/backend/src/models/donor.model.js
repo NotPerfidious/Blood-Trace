@@ -17,6 +17,18 @@ const donorSchema = new Schema(
             required: true,
             index: true
         },
+        
+        city: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        area: {
+            type: String,
+            required: true,
+            trim: true
+        },
 
         geolocation: {
             type: [Number],
@@ -49,6 +61,21 @@ const donorSchema = new Schema(
         isAvailable: {
             type: Boolean,
             required: true,
+            default: true
+        },
+
+        emailNotification: {
+            type: Boolean,
+            default: true
+        },
+
+        smsNotification: {
+            type: Boolean,
+            default: false
+        },
+
+        pushNotification: {
+            type: Boolean,
             default: true
         },
 

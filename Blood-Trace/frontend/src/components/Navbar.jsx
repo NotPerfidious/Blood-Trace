@@ -17,7 +17,7 @@ function Navbar() {
     const [unreadCount, setUnreadCount] = useState(0);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-    const { isAuthenticated, user } = useSelector(state => state.auth);
+    const { isAuthenticated, user, isDonor } = useSelector(state => state.auth);
     const location = useLocation();
 
     useEffect(() => {
@@ -183,12 +183,14 @@ function Navbar() {
                         <Icon icon='material-symbols:widgets-outline-rounded' className="w-5.5 h-5.5" />
                     </NavLink>)}
 
-                    <NavLink to="/profile" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
-                    ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
-                            : 'text-gray-400 cursor-default'}
-                    `} >
-                        <Icon icon='iconamoon:profile' className="w-5.5 h-5.5" />
-                    </NavLink>
+                    {isAuthenticated && isDonor && (
+                        <NavLink to="/profile" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
+                        ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
+                                : 'text-gray-400 cursor-default'}
+                        `} >
+                            <Icon icon='iconamoon:profile' className="w-5.5 h-5.5" />
+                        </NavLink>
+                    )}
 
                     {isAuthenticated && (
                         <button

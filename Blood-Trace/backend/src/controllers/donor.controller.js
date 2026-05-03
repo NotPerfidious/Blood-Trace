@@ -5,9 +5,9 @@ const registerDonor = async (req, res) => {
 
     try {
 
-        const { name, bloodType, geolocation, contactNumber, isAvailable, lastDonationDate } = req.body;
+        const { name, bloodType, geolocation, contactNumber, isAvailable, lastDonationDate, city, area } = req.body;
 
-        if (!name || !bloodType || !geolocation || !contactNumber || isAvailable == undefined) {
+        if (!name || !bloodType || !geolocation || !contactNumber || isAvailable == undefined || !city || !area) {
             return res.status(400).json({
                 message: "All fields are required"
             })
@@ -24,6 +24,8 @@ const registerDonor = async (req, res) => {
         const donor = await Donor.create({
             name,
             bloodType,
+            city,
+            area,
             geolocation,
             contactNumber,
             isAvailable,
@@ -68,7 +70,8 @@ const isUserDonor = async (req, res) => {
 
         return res.status(200).json({
             message: donor ? "User is a registered donor" : "User is not a registered donor",
-            isDonor: !!donor
+            isDonor: !!donor,
+            donor: donor // Include donor details
         })
 
     } catch (error) {
@@ -125,4 +128,49 @@ const getDonors = async (req, res) => {
     }
 }
 
-module.exports = { registerDonor, isUserDonor, getDonors };
+const updateDonorProfile = async (req, res) => {
+    try {
+        const { 
+            name, bloodType, geolocation, contactNumber, isAvailable, 
+            lastDonationDate, city, area, emailNotification, 
+            smsNotification, pushNotification 
+        } = req.body;
+
+        const updatedDonor = await Donor.findOneAndUpdate(
+            { user: req.user.id },
+            {
+                name,
+                bloodType,
+                city,
+                area,
+                geolocation,
+                contactNumber,
+                isAvailable,
+                lastDonationDate,
+                emailNotification,
+                smsNotification,
+                pushNotification
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedDonor) {
+            return res.status(404).json({ message: "Donor profile not found" });
+        }
+
+        return res.status(200).json({
+            message: "Profile updated successfully",
+            donor: updatedDonor
+        });
+
+    } catch (error) {
+        console.error(`[ERROR in updateDonorProfile]: ${error}`);
+        if (error.name === 'ValidationError') {
+            const firstError = Object.values(error.errors)[0].message;
+            return res.status(400).json({ message: firstError });
+        }
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+module.exports = { registerDonor, isUserDonor, getDonors, updateDonorProfile };

@@ -15,6 +15,8 @@ import AccessibilitySettings from './pages/AccessibilitySettings'
 import Profile from './pages/Profile'
 import checkAuth from './features/auth/checkAuth'
 import { fetchAccessibilitySettings, resetAccessibility } from './features/accessibility/accessibilitySlice'
+import { setIsDonor } from './features/auth/authSlice'
+import API from './utils/API'
 import LoadingPulse from './components/LoadingPulse'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminRoute from './components/AdminRoute'
@@ -30,10 +32,21 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
+    const fetchDonorStatus = async () => {
+      try {
+        const response = await API.get('/donor/check');
+        dispatch(setIsDonor(response.data.isDonor));
+      } catch (error) {
+        dispatch(setIsDonor(false));
+      }
+    };
+
     if (isAuthenticated) {
       dispatch(fetchAccessibilitySettings());
+      fetchDonorStatus();
     } else {
       dispatch(resetAccessibility());
+      dispatch(setIsDonor(false));
     }
   }, [isAuthenticated, dispatch]);
 

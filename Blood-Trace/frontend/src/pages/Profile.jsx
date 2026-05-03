@@ -1,23 +1,28 @@
 import { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react'
+import { useSelector, useDispatch } from 'react-redux'
 import ToggleSwitch from '../components/ToggleSwitch'
+import API from '../utils/API'
 
 function Profile() {
-    const [fullName, setFullName] = useState(() => localStorage.getItem('profile_fullName') || "Umar Karamat");
-    const [email, setEmail] = useState(() => localStorage.getItem('profile_email') || "umer123@gmail.com");
-    const [phone, setPhone] = useState(() => localStorage.getItem('profile_phone') || "+92 300 1234567");
-    const [bloodType, setBloodType] = useState(() => localStorage.getItem('profile_bloodType') || "AB-");
-    const [city, setCity] = useState(() => localStorage.getItem('profile_city') || "Lahore");
-    const [area, setArea] = useState(() => localStorage.getItem('profile_area') || "Gulberg");
-    const [lastDonation, setLastDonation] = useState(() => localStorage.getItem('profile_lastDonation') || "2023-11-15");
+    const { user } = useSelector((state) => state.auth);
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [bloodType, setBloodType] = useState("");
+    const [city, setCity] = useState("");
+    const [area, setArea] = useState("");
+    const [lastDonation, setLastDonation] = useState("");
+    const [geolocation, setGeolocation] = useState([]);
     
     // Toggles
-    const [emailNotif, setEmailNotif] = useState(() => localStorage.getItem('profile_emailNotif') !== 'false'); // default true
-    const [smsNotif, setSmsNotif] = useState(() => localStorage.getItem('profile_smsNotif') === 'true');
-    const [pushNotif, setPushNotif] = useState(() => localStorage.getItem('profile_pushNotif') === 'true');
-    const [available, setAvailable] = useState(() => localStorage.getItem('profile_available') === 'true');
+    const [emailNotif, setEmailNotif] = useState(true);
+    const [smsNotif, setSmsNotif] = useState(false);
+    const [pushNotif, setPushNotif] = useState(true);
+    const [available, setAvailable] = useState(true);
 
     const [showPopup, setShowPopup] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     // Calculate days since last donation dynamically
     const daysSinceDonation = lastDonation 
@@ -35,20 +40,57 @@ function Profile() {
         return () => clearTimeout(timer);
     }, [showPopup]);
 
-    const handleSave = () => {
-        localStorage.setItem('profile_fullName', fullName);
-        localStorage.setItem('profile_email', email);
-        localStorage.setItem('profile_phone', phone);
-        localStorage.setItem('profile_bloodType', bloodType);
-        localStorage.setItem('profile_city', city);
-        localStorage.setItem('profile_area', area);
-        localStorage.setItem('profile_lastDonation', lastDonation);
-        localStorage.setItem('profile_emailNotif', emailNotif);
-        localStorage.setItem('profile_smsNotif', smsNotif);
-        localStorage.setItem('profile_pushNotif', pushNotif);
-        localStorage.setItem('profile_available', available);
+    useEffect(() => {
+        const fetchDonorData = async () => {
+            try {
+                const response = await API.get('/donor/check');
+                if (response.data.isDonor && response.data.donor) {
+                    const d = response.data.donor;
+                    setFullName(d.name);
+                    setEmail(user?.email || "");
+                    setPhone(d.contactNumber);
+                    setBloodType(d.bloodType);
+                    setCity(d.city || "");
+                    setArea(d.area || "");
+                    setAvailable(d.isAvailable);
+                    setGeolocation(d.geolocation);
+                    setEmailNotif(d.emailNotification ?? true);
+                    setSmsNotif(d.smsNotification ?? false);
+                    setPushNotif(d.pushNotification ?? true);
+                    if (d.lastDonationDate) {
+                        setLastDonation(new Date(d.lastDonationDate).toISOString().split('T')[0]);
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to fetch donor data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        setShowPopup(true);
+        fetchDonorData();
+    }, [user]);
+
+    const handleSave = async () => {
+        try {
+            await API.put('/donor/update', {
+                name: fullName,
+                bloodType,
+                city,
+                area,
+                geolocation,
+                contactNumber: phone,
+                isAvailable: available,
+                lastDonationDate: lastDonation || null,
+                emailNotification: emailNotif,
+                smsNotification: smsNotif,
+                pushNotification: pushNotif
+            });
+            setShowPopup(true);
+        } catch (error) {
+            console.error("Update failed:", error);
+            alert(error.response?.data?.message || "Failed to update profile");
+        }
     };
 
     return (

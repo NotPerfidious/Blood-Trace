@@ -4,9 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import ToggleSwitch from "../components/ToggleSwitch";
 import axios from 'axios';
 import API from "../utils/API";
+import { useDispatch } from "react-redux";
+import { setIsDonor } from "../features/auth/authSlice";
 
 
 function RegisterDonor() {
+
+    const dispatch = useDispatch();
 
 
 
@@ -97,12 +101,15 @@ function RegisterDonor() {
                 bloodType,
                 geolocation,
                 contactNumber,
+                city,
+                area,
                 isAvailable,
                 ...(lastDonationDate && { lastDonationDate })
             })
 
             if (response.status === 201 && response.data.message === 'Donor registration successfull') {
                 setRegistrationSuccess(true);
+                dispatch(setIsDonor(true));
             }
             else {
                 setErrorMessage(response.data.message);
