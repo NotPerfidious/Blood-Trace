@@ -32,7 +32,7 @@ const registerUser = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             signed: true,
-            sameSite: 'strict',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         })
 
@@ -89,7 +89,7 @@ const loginUser = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             signed: true,
-            sameSite: 'strict',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         })
 
@@ -118,7 +118,7 @@ const logoutUser = async (req, res) => {
             httpOnly:true,
             secure:process.env.NODE_ENV==='production',
             signed:true,
-            sameSite:'strict'
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
         })
 
         return res.status(200).json({
