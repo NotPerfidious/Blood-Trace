@@ -215,7 +215,7 @@ function Help() {
                     <div className="flex justify-center">
 
                         {/* Email Us Card */}
-                        <div className="bg-white rounded-[2rem] p-10 flex flex-col items-center gap-6 shadow-xl border border-gray-100 max-w-md w-full transition-all duration-300">
+                        <div className="bg-white rounded-4xl p-10 flex flex-col items-center gap-6 shadow-xl border border-gray-100 max-w-md w-full transition-all duration-300">
                             <div className="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center shadow-inner">
                                 <Icon
                                     icon="material-symbols:mail-outline"
