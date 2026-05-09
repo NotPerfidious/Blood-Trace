@@ -174,7 +174,7 @@ function RegisterDonor() {
                         <div className="text-lg font-semibold text-gray-600">Join our community of life-savers and help people in need</div>
                     </div>
 
-                    <form onSubmit={handleSubmit} action="" className="p-4 w-full max-w-2xl bg-white border border-gray-400 rounded-xl">
+                    <form onSubmit={handleSubmit} action="" className="p-4 md:p-8 w-full max-w-2xl bg-white border border-gray-400 rounded-xl shadow-sm mx-4">
 
                         <div className="flex flex-col gap-2">
                             <div className="font-bold text-xl">Personal Information</div>
@@ -204,8 +204,8 @@ function RegisterDonor() {
 
                         </div>
 
-                        <div className="flex justify-center">
-                            <div className="grid mt-5 grid-cols-4 gap-y-10 gap-x-20">
+                        <div className="flex justify-center w-full px-2">
+                            <div className="grid mt-5 grid-cols-2 md:grid-cols-4 gap-y-6 md:gap-y-10 gap-x-4 md:gap-x-20">
 
                                 {bloodTypes.map((b, index) => {
                                     return (
@@ -241,16 +241,16 @@ function RegisterDonor() {
                         </div>
 
 
-                        <div className="mt-5 flex justify-between items-center px-10">
+                        <div className="mt-5 flex flex-col md:flex-row justify-between items-center gap-5 md:px-10">
 
-                            <div className="flex flex-col">
-                                <label htmlFor="user-name" className="">City</label>
-                                <input onChange={(e) => setCity(e.target.value)} placeholder="e.g Lahore" className="bg-gray-200 mt-1 p-2 pl-4 rounded-lg placeholder:text-sm" id="user-name" type="text" />
+                            <div className="flex flex-col w-full md:w-auto">
+                                <label htmlFor="user-city" className="">City</label>
+                                <input onChange={(e) => setCity(e.target.value)} placeholder="e.g Lahore" className="bg-gray-200 mt-1 p-2 pl-4 rounded-lg placeholder:text-sm" id="user-city" type="text" />
                             </div>
 
-                            <div className="flex flex-col">
-                                <label htmlFor="user-name" className="">Area/Locality</label>
-                                <input onChange={(e) => setArea(e.target.value)} placeholder="e.g. Gulberg" className="bg-gray-200 mt-1 p-2 pl-4 rounded-lg placeholder:text-sm" id="user-name" type="text" />
+                            <div className="flex flex-col w-full md:w-auto">
+                                <label htmlFor="user-area" className="">Area/Locality</label>
+                                <input onChange={(e) => setArea(e.target.value)} placeholder="e.g. Gulberg" className="bg-gray-200 mt-1 p-2 pl-4 rounded-lg placeholder:text-sm" id="user-area" type="text" />
                             </div>
 
                         </div>

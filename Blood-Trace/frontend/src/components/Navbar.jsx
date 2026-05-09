@@ -23,6 +23,7 @@ function Navbar() {
     const [isDonorPopping, setIsDonorPopping] = useState(true);
     const [unreadCount, setUnreadCount] = useState(0);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const { isAuthenticated, user, isDonor } = useSelector(state => state.auth);
     const location = useLocation();
@@ -36,6 +37,11 @@ function Navbar() {
             })
             .catch(() => { });
     }, [isAuthenticated, location.pathname]);
+
+    // Close menu when location changes
+    useEffect(() => {
+        setIsMenuOpen(false);
+    }, [location]);
 
     const checkIsAuthenticated = (e) => { // user clicking on nav button will have no effect
         if (!isAuthenticated) {
@@ -77,32 +83,24 @@ function Navbar() {
 
     return (
         <>
-            <nav className="navbar-container z-9999 fixed left-0 right-0 top-0 flex justify-between items-center p-[0.25] bg-white shadow-sm border-b border-gray-100">
+            <nav className="navbar-container z-9999 fixed left-0 right-0 top-0 flex justify-between items-center px-4 md:px-8 py-2 bg-white shadow-sm border-b border-gray-100">
 
                 <NavLink to="/" className='cursor-pointer'>
                     <div className='flex flex-row justify-center items-center'>
                         <BloodTraceLogo logo={logo} />
                         <div className='flex-col justify-center-safe'>
-                            <div className='font-bold'>Blood-Trace</div>
-                            <div className='text-xs text-gray-600 -mt-1'>Visual Donor Locator</div>
+                            <div className='font-bold text-sm md:text-base'>Blood-Trace</div>
+                            <div className='text-[10px] md:text-xs text-gray-600 -mt-1'>Visual Donor Locator</div>
                         </div>
                     </div>
                 </NavLink>
 
 
-                <div className='flex gap-5 justify-center items-center mr-8'>
-
-                    {/* <div className='flex items-center gap-3 border-r border-gray-300 pr-4 mr-2'>
-                    <NavLink to="/login" className={({ isActive }) => `${isActive ? 'bg-blood-primary text-white p-1 px-2 rounded-sm' : ""}`} >
-                        <div className={`text-sm font-medium `}>Log In</div>
-                    </NavLink>
-                    <NavLink to="/register" className={({ isActive }) => `${isActive ? 'bg-blood-primary text-white p-1 px-2 rounded-sm' : "text-blood-primary"}`} >
-                        <div className={`text-sm font-medium `}>Sign Up</div>
-                    </NavLink>
-                </div> */}
+                {/* Desktop Menu */}
+                <div className='hidden lg:flex gap-5 justify-center items-center'>
 
                     {!isAuthenticated && isPopping && (
-                        <div className="fixed top-[70px] right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
+                        <div className="fixed top-[70px] left-4 right-4 lg:left-auto lg:right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
                             <Icon icon="mdi:lock-outline" className="w-5 h-5 text-blood-primary" />
                             <span className="font-semibold text-gray-700 text-sm">
                                 Please <Link to="/login" className="text-blood-primary hover:underline" onClick={() => setIsPopping(false)}>Login</Link> / <Link to="/register" className="text-blood-primary hover:underline" onClick={() => setIsPopping(false)}>SignUp</Link> to access all features
@@ -118,7 +116,7 @@ function Navbar() {
                     )}
 
                     {isAuthenticated && !isDonor && isDonorPopping && (
-                        <div className="fixed top-[70px] right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
+                        <div className="fixed top-[70px] left-4 right-4 lg:left-auto lg:right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
                             <Icon icon="lucide:settings" className="w-5 h-5 text-blood-primary" />
                             <span className="font-semibold text-gray-700 text-sm">
                                 <Link to="/register-donor" className="text-blood-primary hover:underline" onClick={() => setIsDonorPopping(false)}>Register as a donor</Link> to access accessibility settings
@@ -237,6 +235,99 @@ function Navbar() {
 
                 </div>
 
+                {/* Mobile Menu Button */}
+                <div className='flex lg:hidden items-center gap-4'>
+                    {isAuthenticated && unreadCount > 0 && (
+                        <NavLink to="/notifications" className="relative p-1">
+                            <Icon icon='lucide:bell' className='w-6 h-6 text-gray-700' />
+                            <span className="absolute -top-0.5 -right-0.5 bg-[#D92D20] text-white text-[0.55rem] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                                {unreadCount > 9 ? '9+' : unreadCount}
+                            </span>
+                        </NavLink>
+                    )}
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className='p-2 rounded-md hover:bg-gray-100 text-gray-700'
+                    >
+                        <Icon icon={isMenuOpen ? 'material-symbols:close' : 'material-symbols:menu'} className='w-7 h-7' />
+                    </button>
+                </div>
+
+                {/* Mobile Menu Dropdown */}
+                {isMenuOpen && (
+                    <div className='lg:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-lg flex flex-col p-4 gap-2 z-9999 max-h-[80vh] overflow-y-auto animate-in slide-in-from-top duration-200'>
+                        
+                        {!isAuthenticated && (
+                            <div className="bg-red-50 p-3 rounded-xl mb-2">
+                                <p className="text-xs text-gray-700 font-medium mb-2">Sign in to access all features</p>
+                                <div className="flex gap-2">
+                                    <Link to="/login" className="flex-1 text-center bg-blood-primary text-white text-xs py-2 rounded-lg font-bold">Login</Link>
+                                    <Link to="/register" className="flex-1 text-center border border-blood-primary text-blood-primary text-xs py-2 rounded-lg font-bold">Sign Up</Link>
+                                </div>
+                            </div>
+                        )}
+
+                        <NavLink to="/dashboard" onClick={checkIsAuthenticated} className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700') : 'text-gray-400'}`}>
+                            <Icon icon="material-symbols:search" className="w-5 h-5" />
+                            <span className="font-semibold text-sm">Find Donors</span>
+                        </NavLink>
+
+                        <NavLink to="/register-donor" onClick={checkIsAuthenticated} className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700') : 'text-gray-400'}`}>
+                            <Icon icon="mdi:register-outline" className="w-5 h-5" />
+                            <span className="font-semibold text-sm">Register as Donor</span>
+                        </NavLink>
+
+                        <NavLink to="/notifications" onClick={checkIsAuthenticated} className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700') : 'text-gray-400'}`}>
+                            <Icon icon="lucide:bell" className="w-5 h-5" />
+                            <span className="font-semibold text-sm">Notifications</span>
+                        </NavLink>
+
+                        <NavLink to="/about" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
+                            <Icon icon="mdi:about-circle-outline" className="w-5 h-5" />
+                            <span className="font-semibold text-sm">About Us</span>
+                        </NavLink>
+
+                        <NavLink to="/help" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
+                            <Icon icon="material-symbols:help-outline" className="w-5 h-5" />
+                            <span className="font-semibold text-sm">Help & FAQ</span>
+                        </NavLink>
+
+                        <div className='h-[1px] bg-gray-100 my-1' />
+
+                        {isAuthenticated && (
+                            <>
+                                {isDonor && (
+                                    <>
+                                        <NavLink to="/profile" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
+                                            <Icon icon="iconamoon:profile" className="w-5 h-5" />
+                                            <span className="font-semibold text-sm">My Profile</span>
+                                        </NavLink>
+                                        <NavLink to="/accessibility" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
+                                            <Icon icon="meteor-icons:gear" className="w-5 h-5" />
+                                            <span className="font-semibold text-sm">Accessibility Settings</span>
+                                        </NavLink>
+                                    </>
+                                )}
+
+                                {user?.role === 'admin' && (
+                                    <NavLink to="/admin" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
+                                        <Icon icon="material-symbols:widgets-outline-rounded" className="w-5 h-5" />
+                                        <span className="font-semibold text-sm">Admin Dashboard</span>
+                                    </NavLink>
+                                )}
+
+                                <button
+                                    onClick={() => setShowLogoutModal(true)}
+                                    className="flex items-center gap-3 p-3 rounded-xl text-red-600 hover:bg-red-50 mt-2"
+                                >
+                                    <Icon icon="solar:logout-2-outline" className="w-5 h-5" />
+                                    <span className="font-semibold text-sm">Logout</span>
+                                </button>
+                            </>
+                        )}
+                    </div>
+                )}
+
             </nav>
 
             {isLoggingOut && (
@@ -251,10 +342,10 @@ function Navbar() {
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-10000 p-4 transition-all animate-in fade-in duration-300">
                     <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all scale-100 opacity-100 animate-in zoom-in-95 duration-300 border border-gray-100">
                         <div className="p-8">
-                            <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Icon icon="solar:logout-2-bold-duotone" className="w-10 h-10 text-blood-primary" />
+                            <div className="w-16 h-16 md:w-20 md:h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <Icon icon="solar:logout-2-bold-duotone" className="w-8 h-8 md:w-10 md:h-10 text-blood-primary" />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 text-center mb-6">Are you sure you want to log out?</h3>
+                            <h3 className="text-lg md:text-xl font-bold text-gray-900 text-center mb-6">Are you sure you want to log out?</h3>
 
                             <div className="flex flex-col gap-3">
                                 <button
@@ -262,13 +353,13 @@ function Navbar() {
                                         setShowLogoutModal(false);
                                         handleLogout();
                                     }}
-                                    className="w-full px-6 py-4 rounded-2xl bg-blood-primary text-white font-bold hover:bg-red-700 transition-all cursor-pointer shadow-xl shadow-red-200 active:scale-95"
+                                    className="w-full px-6 py-3 md:py-4 rounded-2xl bg-blood-primary text-white font-bold hover:bg-red-700 transition-all cursor-pointer shadow-xl shadow-red-200 active:scale-95 text-sm md:text-base"
                                 >
                                     Yes, Logout
                                 </button>
                                 <button
                                     onClick={() => setShowLogoutModal(false)}
-                                    className="w-full px-6 py-4 rounded-2xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition-all cursor-pointer active:scale-95"
+                                    className="w-full px-6 py-3 md:py-4 rounded-2xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition-all cursor-pointer active:scale-95 text-sm md:text-base"
                                 >
                                     No, stay logged in
                                 </button>

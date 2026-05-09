@@ -235,12 +235,12 @@ function Dashboard() {
 
     return (
         <>
-            <div className="bg-dashboard-main p-4 pb-8 pr-35 min-h-full flex flex-row gap-3.5 flex-1">
+            <div className="bg-dashboard-main p-4 pb-8 lg:pr-35 min-h-full flex flex-col lg:flex-row gap-3.5 flex-1">
 
 
 
                 {receipentBloodType && (
-                    <div className="fixed top-17 right-4 bg-white p-3 z-999 rounded-2xl">
+                    <div className="fixed top-20 lg:top-17 right-4 bg-white p-3 z-999 rounded-2xl shadow-md">
 
                         <div className="text-blood-primary font-semibold  text-xl">
                             {compatibleDonors && compatibleDonors.length}
@@ -253,8 +253,8 @@ function Dashboard() {
 
 
 
-                <div>
-                    <div className="bg-white relative p-3 pb-33 rounded-lg">
+                <div className="w-full lg:w-auto">
+                    <div className="bg-white relative p-3 pb-33 rounded-lg shadow-sm">
 
                         {receipentBloodType && (<button onClick={() => {
                             setReceipentBloodType(undefined);
@@ -330,9 +330,9 @@ function Dashboard() {
 
                 </div>
 
-                <div className="relative flex-1 py-2 ">
+                <div className="relative flex-1 py-2 min-h-[400px] lg:min-h-0">
 
-                    <MapContainer center={[currPosition.latitude, currPosition.longitude]} zoom={9.7}>
+                    <MapContainer center={[currPosition.latitude, currPosition.longitude]} zoom={9.7} className="h-full w-full rounded-lg">
 
                         <TileLayer
                             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -359,7 +359,7 @@ function Dashboard() {
 
                     </MapContainer>
 
-                    <div className="absolute border  bg-white z-1001 left-0 bottom-0 flex flex-col gap-2 rounded-xl p-4">
+                    <div className="absolute border  bg-white z-1001 left-0 bottom-16 lg:bottom-0 flex flex-col gap-2 rounded-xl p-4">
 
                         <div className="text-gray-700 text-[0.8rem] font-semibold">Donor status</div>
 
@@ -402,7 +402,7 @@ function Dashboard() {
                     </div>
 
 
-                    <div onClick={() => { setEmergencyAlert(true) }} className="absolute -bottom-2 right-[38%] z-1001 px-7 py-3 bg-blood-primary cursor-pointer text-white text-[1rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center">
+                    <div onClick={() => { setEmergencyAlert(true) }} className="absolute -bottom-2 left-1/2 -translate-x-1/2 lg:left-auto lg:right-[38%] lg:translate-x-0 z-1001 px-7 py-3 bg-blood-primary cursor-pointer text-white text-[1rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center whitespace-nowrap shadow-lg">
                         <div>
                             <Icon icon="ix:about" className="h-4.5 w-4.5" />
                         </div>
@@ -413,10 +413,10 @@ function Dashboard() {
 
                 </div>
 
-                <div className=""> {/*Donor info window*/}
+                <div className="w-full lg:w-auto"> {/*Donor info window*/}
 
                     {showDonor && (
-                        <div className="relative bg-white rounded-lg overflow-hidden">
+                        <div className="relative bg-white rounded-lg overflow-hidden shadow-md">
 
                             <button onClick={() => { setShowDonor(undefined) }} className="cursor-pointer absolute top-3 right-3">
                                 <Icon icon="maki:cross" className="text-gray-600 h-3 w-3" />

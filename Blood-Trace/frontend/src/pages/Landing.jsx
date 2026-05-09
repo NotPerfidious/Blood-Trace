@@ -32,7 +32,7 @@ function Landing() {
 
                 </div>
 
-                <div className="flex items-center gap-8 mb-5 mt-5 ml-10">
+                <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-8 mb-5 mt-5 lg:ml-10 px-4">
                     <Icon icon="heroicons:stethoscope" className="w-16 h-16 text-blood-primary shrink-0 opacity-75" />
                     <div className="text-4xl font-bold max-w-110 text-center">
                         Locate Compatible Blood Donors in <span className="text-blood-primary">Seconds</span>
@@ -40,7 +40,7 @@ function Landing() {
                     <Icon icon="mdi:blood-bag" className="w-16 h-16 text-blood-primary shrink-0" />
                 </div>
                 {/* text-gray-700 leading-relaxed mb-4 */}
-                <div className="text-gray-700 font-medium leading-relaxed mb-7 w-3xl text-center text-lg">
+                <div className="text-gray-700 font-medium leading-relaxed mb-7 w-full lg:w-3xl text-center text-base lg:text-lg px-6">
                     Blood-Trace is a cutting-edge emergency response platform designed for high-stress medical environments. Find, contact, and coordinate with compatible blood donors in your area with unprecedented speed and accuracy.
                 </div>
 
@@ -57,7 +57,7 @@ function Landing() {
                     </div>
                 </Link>
 
-                <div className="flex flex-row justify-center items-center gap-30 mb-6 my-3 mt-6 text-gray-700">
+                <div className="flex flex-col md:flex-row justify-center items-center gap-10 md:gap-30 mb-6 my-3 mt-6 text-gray-700">
                     <div className="flex flex-col justify-center items-center">
                         <div className="text-3xl font-semibold text-blood-primary ">
                             2.5s
@@ -86,18 +86,18 @@ function Landing() {
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center gap-2.5 mt-2 mb-6 border border-[#facbcb] rounded-3xl p-4">
+                <div className="flex flex-col items-center gap-2.5 mt-2 mb-6 border border-[#facbcb] rounded-3xl p-6 lg:p-4 mx-4 lg:mx-0">
                     <div className="text-2xl font-medium ">
                         Built for Emergency Medical Environments
                     </div>
 
-                    <div className="text-gray-800 w-3xl text-1 text-center">
+                    <div className="text-gray-800 w-full lg:w-3xl text-center px-4">
                         Every feature is designed with HCI principles to reduce cognitive load
                         and enable rapid decision-making during critical moments.
                     </div>
                 </div>
 
-                <div className=" mr-23 ml-23">
+                <div className="mx-6 lg:mx-23">
                     <h3 className="text-2xl font-bold mb-6 text-center">Key Features</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -141,13 +141,13 @@ function Landing() {
                         How Blood-Trace Works
                     </div>
 
-                    <div className="text-gray-800 w-3xl text-lg text-center">
+                    <div className="text-gray-800 w-full lg:w-3xl text-base lg:text-lg text-center px-6">
                         Three simple steps from emergency to donor coordination
                     </div>
                 </div>
 
 
-                <div className="flex flex-row justify-between gap-10 mb-5">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-10 mb-8 px-6">
 
                     <div className="flex flex-col items-center gap-3 w-60">
                         <div>
@@ -184,7 +184,7 @@ function Landing() {
                     Ready to Save Lives?
                 </div>
 
-                <div className="text-lg">
+                <div className="text-base lg:text-lg px-6 text-center">
                     Access the Blood-Trace dashboard and start locating compatible donors in your area.
                 </div>
 

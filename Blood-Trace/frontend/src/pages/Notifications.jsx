@@ -53,20 +53,20 @@ function Notifications() {
     }, [])
 
     return (
-        <div className="w-full flex-col font-sans pb-16 bg-white mt-[-95px] pt-10 min-h-screen">
+        <div className="w-full flex-col font-sans pb-16 bg-white mt-[-70px] lg:mt-[-95px] pt-10 min-h-screen">
             <div className="w-full max-w-4xl mx-auto px-4 mt-24 relative">
 
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div className="flex items-center gap-4">
                         <Icon icon="mdi:bell" className="w-8 h-8 text-[#D92D20]" />
                         <div>
-                            <h1 className="text-3xl font-bold">Notifications</h1>
+                            <h1 className="text-2xl lg:text-3xl font-bold">Notifications</h1>
                             <p className="text-gray-500 text-sm">{unread_n} unread notification{unread_n !== 1 ? 's' : ''}</p>
                         </div>
                     </div>
                     <button
                         onClick={markAllAsRead}
-                        className="border border-gray-300 rounded-full px-6 py-2 text-sm font-semibold hover:bg-gray-50 transition-colors"
+                        className="w-full md:w-auto border border-gray-300 rounded-full px-6 py-2 text-sm font-semibold hover:bg-gray-50 transition-colors"
                     >
                         Mark All As Read
                     </button>

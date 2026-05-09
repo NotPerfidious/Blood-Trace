@@ -53,7 +53,7 @@ function AccessibilitySettings() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center py-10 px-4 relative">
+        <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center py-6 lg:py-10 px-4 relative">
             {/* Success Popup */}
             {showPopup && (
                 <div className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-9999 transition-all duration-300">
@@ -116,11 +116,11 @@ function AccessibilitySettings() {
                         </div>
                     </div>
 
-                    <div className="flex gap-4">
+                    <div className="flex flex-col md:flex-row gap-4">
                         {/* Normal Box */}
                         <div 
                             onClick={() => setTextSize('Normal')}
-                            className={`flex flex-col w-40 gap-2 p-4 rounded-xl border cursor-pointer transition-colors duration-200 ${textSize === 'Normal' ? 'bg-red-100/50 border-red-200' : 'bg-gray-200/60 border-transparent hover:bg-gray-200'}`}
+                            className={`flex flex-col w-full md:w-40 gap-2 p-4 rounded-xl border cursor-pointer transition-colors duration-200 ${textSize === 'Normal' ? 'bg-red-100/50 border-red-200' : 'bg-gray-200/60 border-transparent hover:bg-gray-200'}`}
                         >
                             <div className="font-semibold text-[0.9rem] text-gray-800">Normal</div>
                             <div className="text-[0.85rem] text-gray-600 mt-2">Sample text</div>
@@ -129,7 +129,7 @@ function AccessibilitySettings() {
                         {/* Large Box */}
                         <div 
                             onClick={() => setTextSize('Large')}
-                            className={`flex flex-col w-40 gap-2 p-4 rounded-xl border cursor-pointer transition-colors duration-200 ${textSize === 'Large' ? 'bg-red-100/50 border-red-200' : 'bg-gray-200/60 border-transparent hover:bg-gray-200'}`}
+                            className={`flex flex-col w-full md:w-40 gap-2 p-4 rounded-xl border cursor-pointer transition-colors duration-200 ${textSize === 'Large' ? 'bg-red-100/50 border-red-200' : 'bg-gray-200/60 border-transparent hover:bg-gray-200'}`}
                         >
                             <div className="font-semibold text-[0.9rem] text-gray-800">Large</div>
                             <div className="text-[0.95rem] text-gray-600 mt-2">Sample text</div>
@@ -138,7 +138,7 @@ function AccessibilitySettings() {
                         {/* Extra Large Box */}
                         <div 
                             onClick={() => setTextSize('Extra Large')}
-                            className={`flex flex-col w-40 gap-2 p-4 rounded-xl border cursor-pointer transition-colors duration-200 ${textSize === 'Extra Large' ? 'bg-red-100/50 border-red-200' : 'bg-gray-200/60 border-transparent hover:bg-gray-200'}`}
+                            className={`flex flex-col w-full md:w-40 gap-2 p-4 rounded-xl border cursor-pointer transition-colors duration-200 ${textSize === 'Extra Large' ? 'bg-red-100/50 border-red-200' : 'bg-gray-200/60 border-transparent hover:bg-gray-200'}`}
                         >
                             <div className="font-semibold text-[0.9rem] text-gray-800">Extra Large</div>
                             <div className="text-[1.05rem] text-gray-600 mt-2">Sample text</div>

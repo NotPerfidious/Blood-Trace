@@ -10,7 +10,7 @@ import { Icon } from '@iconify/react'
 function About() {
     return (
         <div className="w-full flex-col font-sans pb-16 bg-white">
-            <div className="bg-[#D92D20] text-white w-full py-7 flex flex-col items-center justify-center text-center">
+            <div className="bg-[#D92D20] text-white w-full py-10 lg:py-7 flex flex-col items-center justify-center text-center px-4">
                 <div className="bg-white rounded-full p-2 mb-4">
                     <Icon icon="mdi:water-drop" className="w-10 h-10 text-[#D92D20]" />
                 </div>
@@ -19,8 +19,8 @@ function About() {
                 <p className="text-x1 font-light">Transforming emergency healthcare through thoughtful UI/UX design</p>
             </div>
 
-            <div className="w-full max-w-5xl mx-auto px-4 mt-4 flex flex-col gap-12">
-                <section className="mt-6 border border-gray-200 rounded-xl p-8 bg-[#eeebebc7]">
+            <div className="w-full max-w-5xl mx-auto px-4 mt-8 flex flex-col gap-12">
+                <section className="mt-6 border border-gray-200 rounded-xl p-6 lg:p-8 bg-[#eeebebc7]">
                     <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
                     <p className="text-gray-700 leading-relaxed mb-4">
                         Blood-Trace is a conceptual UI/UX-focused system designed to improve the experience of finding blood donors during medical emergencies.
@@ -32,7 +32,7 @@ function About() {
 
                 <section className='m-1'>
                     <h3 className="text-2xl font-bold mb-6 text-center">The Problem We Address</h3>
-                    <div className="bg-[#fcefef] border border-[#FFE0E0] rounded-xl p-8">
+                    <div className="bg-[#fcefef] border border-[#FFE0E0] rounded-xl p-6 lg:p-8">
                         <p className="text-gray-800 mb-6">
                             In emergency healthcare situations, finding a blood donor in Pakistan is often done through unstructured WhatsApp messages, phone calls, and social media posts. These methods create:
                         </p>

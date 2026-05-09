@@ -28,6 +28,7 @@ function Profile() {
 
     const [showPopup, setShowPopup] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
 
     // Calculate days since last donation dynamically
     const daysSinceDonation = lastDonation 
@@ -77,6 +78,7 @@ function Profile() {
     }, [user]);
 
     const handleSave = async () => {
+        setIsSaving(true);
         try {
             await API.put('/donor/update', {
                 name: fullName,
@@ -95,11 +97,13 @@ function Profile() {
         } catch (error) {
             console.error("Update failed:", error);
             alert(error.response?.data?.message || "Failed to update profile");
+        } finally {
+            setIsSaving(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center py-10 px-4 relative">
+        <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center py-6 lg:py-10 px-4 relative">
             {/* Success Popup */}
             {showPopup && (
                 <div className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-9999 transition-all duration-300">
@@ -119,7 +123,7 @@ function Profile() {
                 </div>
             </div>
 
-            <div className="w-full max-w-[900px] flex gap-6 flex-col md:flex-row">
+            <div className="w-full max-w-[900px] flex gap-6 flex-col lg:flex-row">
                 {/* Left Column */}
                 <div className="flex-1 flex flex-col gap-6">
                     {/* Personal Information */}
@@ -168,7 +172,7 @@ function Profile() {
                         
                         <div className="mb-4">
                             <label className="block text-[0.85rem] font-medium text-gray-800 mb-2">Blood Type</label>
-                            <div className="grid grid-cols-4 gap-3">
+                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
                                 {['O-', 'O+', 'A-', 'A+', 'B-', 'B+', 'AB-', 'AB+'].map((type) => (
                                     <div 
                                         key={type} 
@@ -181,7 +185,7 @@ function Profile() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-[0.85rem] font-medium text-gray-800 mb-1.5">City</label>
                                 <input 
@@ -245,18 +249,28 @@ function Profile() {
                         </div>
                     </div>
                     
-                    {/* Save Changes Button */}
+                    {/* Save Button */}
                     <button 
                         onClick={handleSave}
-                        className="w-full bg-blood-primary hover:bg-red-700 text-white font-medium text-[1.05rem] py-3.5 rounded-xl transition-colors duration-200 mt-2 px-6"
+                        disabled={isSaving}
+                        className={`w-full py-3.5 rounded-xl text-white font-bold text-[1rem] shadow-md transition-all flex items-center justify-center gap-2 mt-2 ${isSaving ? 'bg-blood-primary/70 cursor-not-allowed' : 'bg-blood-primary hover:bg-red-700 active:scale-[0.98] cursor-pointer'}`}
                     >
-                        Save Changes
+                        {isSaving ? (
+                            <>
+                                <Icon icon="lucide:loader-2" className="w-5 h-5 animate-spin" />
+                                <span>Saving Settings...</span>
+                            </>
+                        ) : (
+                            <>
+                                <Icon icon="lucide:save" className="w-5 h-5" />
+                                <span>Save Settings</span>
+                            </>
+                        )}
                     </button>
-                    
                 </div>
 
                 {/* Right Column */}
-                <div className="w-full md:w-[320px] flex flex-col gap-6">
+                <div className="w-full lg:w-[320px] flex flex-col gap-6">
                     {/* Availability Status */}
                     <div className="bg-white rounded-2xl p-5 shadow-sm">
                         <h3 className="font-bold text-[1rem] text-gray-900 mb-4">Availability Status</h3>

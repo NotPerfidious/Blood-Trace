@@ -36,7 +36,7 @@ function AdminDashboard() {
     : 0;
 
   return (
-    <div className="pb-10 px-6 md:px-12 lg:px-20 w-full bg-[#fdfdfd] min-h-screen mt-10">
+    <div className="pb-10 px-4 md:px-12 lg:px-20 w-full bg-[#fdfdfd] min-h-screen mt-16 lg:mt-10">
 
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>

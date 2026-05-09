@@ -22,8 +22,8 @@ function Footer() {
     return (
         <div className="footer-container bg-footer-main text-footer-text p-2.5">
 
-            <div className='flex justify-between items-start'>
-                <div className='flex-col w-65'>
+            <div className='flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-0 p-4 lg:p-0'>
+                <div className='flex flex-col w-full lg:w-65'>
 
                     <NavLink to='/'>
                         <div className='flex'>
@@ -41,7 +41,7 @@ function Footer() {
 
                 </div>
 
-                <div className='flex flex-col  w-60 gap-2'>
+                <div className='flex flex-col w-full lg:w-60 gap-2'>
                     <div className='flex items-center'>Quick Links</div>
                     <NavLink to="/dashboard" onClick={checkIsAuthenticated} className={
                         ({ isActive }) =>
@@ -74,7 +74,7 @@ function Footer() {
                     </NavLink>
                 </div>
 
-                <div className='flex flex-col w-60 gap-2'>
+                <div className='flex flex-col w-full lg:w-60 gap-2'>
                     <div className='flex items-center'>Resources</div>
 
                     <NavLink to="/notifications" onClick={checkIsAuthenticated} className={
@@ -110,7 +110,7 @@ function Footer() {
 
                 </div>
 
-                <div className='flex flex-col w-60 gap-2'>
+                <div className='flex flex-col w-full lg:w-60 gap-2'>
                     <div className='flex items-center'>Contact Us</div>
                     <div className='text-[0.87rem] font-light text-gray-400 flex flex-row gap-1 items-center'>
                         <Icon
@@ -148,7 +148,7 @@ function Footer() {
 
             <div className='h-[0.5px] w-full mt-4 mb-4  bg-gray-800' />
 
-            <div className='flex flex-row justify-between text-xs text-gray-400 mb-1 font-light'>
+            <div className='flex flex-col lg:flex-row justify-between text-xs text-gray-400 mb-1 font-light gap-3 lg:gap-0'>
                 <div className=''>
                     © 2026 Blood-Trace. A visual blood locator
                 </div>

@@ -144,7 +144,7 @@ function Help() {
 
 
             {/* FAQ Section */}
-            <div className="max-w-3xl mx-auto px-6 pb-10">
+            <div className="max-w-3xl mx-auto px-4 lg:px-6 pb-10">
                 <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
                     <h2 className="text-xl font-bold text-gray-900 mb-5">
                         Frequently Asked Questions
@@ -215,7 +215,7 @@ function Help() {
                     <div className="flex justify-center">
 
                         {/* Email Us Card */}
-                        <div className="bg-white rounded-4xl p-10 flex flex-col items-center gap-6 shadow-xl border border-gray-100 max-w-md w-full transition-all duration-300">
+                        <div className="bg-white rounded-4xl p-6 lg:p-10 flex flex-col items-center gap-6 shadow-xl border border-gray-100 max-w-md w-full transition-all duration-300 mx-4 lg:mx-0">
                             <div className="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center shadow-inner">
                                 <Icon
                                     icon="material-symbols:mail-outline"

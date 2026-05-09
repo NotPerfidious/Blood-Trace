@@ -84,7 +84,7 @@ function Register() {
                 </svg>
             </div>
 
-            <div className="relative z-10 w-full max-w-sm bg-white/95 backdrop-blur-md p-8 border border-red-50 rounded-2xl shadow-2xl">
+            <div className="relative z-10 w-full max-w-sm bg-white/95 backdrop-blur-md p-6 lg:p-8 border border-red-50 rounded-2xl shadow-2xl mx-4">
                 <h1 className="text-2xl font-bold text-center text-gray-900 mb-6">Create Account</h1>
 
                 {successMsg && (
