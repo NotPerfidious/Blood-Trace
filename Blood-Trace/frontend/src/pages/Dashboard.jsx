@@ -107,23 +107,18 @@ function Dashboard() {
 
         return L.divIcon({
             className: 'custom-div-icon',
-            // The HTML structure: Dot container + Label
+            // The HTML structure: Dot container
             html: `
-                <div class="flex flex-col items-center">
+                <div class="flex items-center justify-center">
                     <!-- The Pulsing Circle -->
                     <div class="relative flex items-center justify-center w-10 h-10">
                         <div class="absolute w-full h-full bg-blue-400 opacity-20 rounded-full"></div>
                         <div class="pulse-dot w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-sm"></div>
                     </div>
-        
-                    <!-- The "Your Location" Tag -->
-                    <div class="mt-1 px-3 py-1 bg-blue-500 text-white text-[10px] font-bold rounded-lg shadow-md whitespace-nowrap">
-                        Your Location
-                    </div>
                 </div>`,
 
-            iconSize: [100, 60], // Size of the invisible container
-            iconAnchor: [50, 30], // Point of the icon which will correspond to marker's location (Center)
+            iconSize: [40, 40], // Size of the invisible container
+            iconAnchor: [20, 20], // Point of the icon which will correspond to marker's location (Center)
         });
 
     }
@@ -172,7 +167,10 @@ function Dashboard() {
         else {
             document.body.style.overflow = 'unset'
         }
-    }, [emergencyAlert])
+        return () => {
+             document.body.style.overflow = 'unset'
+        }
+    }, [emergencyAlert, emergencyAlertSent])
 
     const nameIcon = (name) => {
         let arr = name.split(' ')
@@ -253,7 +251,7 @@ function Dashboard() {
 
 
 
-                <div className="w-full lg:w-auto">
+                <div className="w-full lg:w-auto order-3 lg:order-1">
                     <div className="bg-white relative p-3 pb-33 rounded-lg shadow-sm">
 
                         {receipentBloodType && (<button onClick={() => {
@@ -330,9 +328,9 @@ function Dashboard() {
 
                 </div>
 
-                <div className="relative flex-1 py-2 min-h-[400px] lg:min-h-0">
+                <div className="relative w-full h-[450px] lg:h-auto lg:flex-1 p-2 lg:p-0 lg:py-2 mb-4 lg:mb-0 bg-white lg:bg-transparent rounded-xl shadow-sm lg:shadow-none order-1 lg:order-2 z-0">
 
-                    <MapContainer center={[currPosition.latitude, currPosition.longitude]} zoom={9.7} className="h-full w-full rounded-lg">
+                    <MapContainer center={[currPosition.latitude, currPosition.longitude]} zoom={9.7} className="h-full w-full rounded-lg z-0">
 
                         <TileLayer
                             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -359,7 +357,7 @@ function Dashboard() {
 
                     </MapContainer>
 
-                    <div className="absolute border  bg-white z-1001 left-0 bottom-16 lg:bottom-0 flex flex-col gap-2 rounded-xl p-4">
+                    <div className="absolute border bg-white z-1001 left-2 bottom-20 lg:left-0 lg:bottom-0 flex flex-col gap-2 rounded-xl p-4 scale-90 lg:scale-100 origin-bottom-left">
 
                         <div className="text-gray-700 text-[0.8rem] font-semibold">Donor status</div>
 
@@ -402,7 +400,7 @@ function Dashboard() {
                     </div>
 
 
-                    <div onClick={() => { setEmergencyAlert(true) }} className="absolute -bottom-2 left-1/2 -translate-x-1/2 lg:left-auto lg:right-[38%] lg:translate-x-0 z-1001 px-7 py-3 bg-blood-primary cursor-pointer text-white text-[1rem] flex flex-row gap-5 p-2 rounded-xl justify-center items-center whitespace-nowrap shadow-lg">
+                    <div onClick={() => { setEmergencyAlert(true) }} className="absolute bottom-4 lg:-bottom-2 left-1/2 -translate-x-1/2 lg:left-auto lg:right-[38%] lg:translate-x-0 z-1001 px-5 py-2 lg:px-7 lg:py-3 bg-blood-primary cursor-pointer text-white text-[0.9rem] lg:text-[1rem] flex flex-row gap-3 lg:gap-5 rounded-xl justify-center items-center whitespace-nowrap shadow-lg">
                         <div>
                             <Icon icon="ix:about" className="h-4.5 w-4.5" />
                         </div>
@@ -413,7 +411,7 @@ function Dashboard() {
 
                 </div>
 
-                <div className="w-full lg:w-auto"> {/*Donor info window*/}
+                <div className="w-full lg:w-auto order-2 lg:order-3"> {/*Donor info window*/}
 
                     {showDonor && (
                         <div className="relative bg-white rounded-lg overflow-hidden shadow-md">
@@ -465,7 +463,7 @@ function Dashboard() {
                             </div>
 
                             <div className="p-3 flex flex-col gap-3 items-center">
-                                <div className="flex flex-col gap-1 p-2.5 justify-center bg-gray-200 rounded-xl w-60">
+                                <div className="flex flex-col gap-1 p-2.5 justify-center bg-gray-200 rounded-xl w-full lg:w-60">
                                     <div className="flex flex-row gap-3 items-center">
 
                                         <div>
@@ -484,7 +482,7 @@ function Dashboard() {
                                 </div>
 
                                 {showDonor.lastDonationDate && (
-                                    <div className="flex flex-col gap-1 p-2.5 justify-center bg-gray-200 rounded-xl w-60">
+                                    <div className="flex flex-col gap-1 p-2.5 justify-center bg-gray-200 rounded-xl w-full lg:w-60">
                                         <div className="flex flex-row gap-3 items-center">
 
                                             <div>
@@ -505,7 +503,7 @@ function Dashboard() {
                                 )}
 
 
-                                <div className="flex flex-col gap-1 p-2.5 justify-center bg-gray-200 rounded-xl w-60">
+                                <div className="flex flex-col gap-1 p-2.5 justify-center bg-gray-200 rounded-xl w-full lg:w-60">
                                     <div className="flex flex-row gap-3 items-center">
 
                                         <div>

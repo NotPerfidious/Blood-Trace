@@ -102,6 +102,26 @@ function Profile() {
         }
     };
 
+    const saveButton = (
+        <button 
+            onClick={handleSave}
+            disabled={isSaving}
+            className={`w-full py-3.5 rounded-xl text-white font-bold text-[1rem] shadow-md transition-all flex items-center justify-center gap-2 mt-2 ${isSaving ? 'bg-blood-primary/70 cursor-not-allowed' : 'bg-blood-primary hover:bg-red-700 active:scale-[0.98] cursor-pointer'}`}
+        >
+            {isSaving ? (
+                <>
+                    <Icon icon="lucide:loader-2" className="w-5 h-5 animate-spin" />
+                    <span>Saving Settings...</span>
+                </>
+            ) : (
+                <>
+                    <Icon icon="lucide:save" className="w-5 h-5" />
+                    <span>Save Settings</span>
+                </>
+            )}
+        </button>
+    );
+
     return (
         <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center py-6 lg:py-10 px-4 relative">
             {/* Success Popup */}
@@ -249,24 +269,10 @@ function Profile() {
                         </div>
                     </div>
                     
-                    {/* Save Button */}
-                    <button 
-                        onClick={handleSave}
-                        disabled={isSaving}
-                        className={`w-full py-3.5 rounded-xl text-white font-bold text-[1rem] shadow-md transition-all flex items-center justify-center gap-2 mt-2 ${isSaving ? 'bg-blood-primary/70 cursor-not-allowed' : 'bg-blood-primary hover:bg-red-700 active:scale-[0.98] cursor-pointer'}`}
-                    >
-                        {isSaving ? (
-                            <>
-                                <Icon icon="lucide:loader-2" className="w-5 h-5 animate-spin" />
-                                <span>Saving Settings...</span>
-                            </>
-                        ) : (
-                            <>
-                                <Icon icon="lucide:save" className="w-5 h-5" />
-                                <span>Save Settings</span>
-                            </>
-                        )}
-                    </button>
+                    {/* Save Button (Desktop) */}
+                    <div className="hidden lg:block">
+                        {saveButton}
+                    </div>
                 </div>
 
                 {/* Right Column */}
@@ -317,6 +323,11 @@ function Profile() {
                                 <span className="text-[0.85rem] font-bold text-gray-900">Jan 2024</span>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Save Button (Mobile) */}
+                    <div className="block lg:hidden mt-2 pb-8">
+                        {saveButton}
                     </div>
                 </div>
 

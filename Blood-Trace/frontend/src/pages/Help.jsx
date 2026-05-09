@@ -128,16 +128,16 @@ function Help() {
         <div className="min-h-screen bg-[#f9f9f9]">
 
             {/* Hero Section */}
-            <div className="flex flex-col items-center py-10 gap-3">
+            <div className="flex flex-col items-center py-10 gap-3 px-4 text-center">
                 <div className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center shadow-md">
                     <img src={helpLogo} alt="Help & Support" className="w-16 h-16 object-contain rounded-full bg-blood-primary" />
                 </div>
 
-                <h1 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
                     Help & Support
                 </h1>
 
-                <p className="text-gray-500 text-[0.9rem]">
+                <p className="text-gray-500 text-[0.9rem] md:text-base">
                     Find answers to common questions about Blood-Trace.
                 </p>
             </div>
@@ -146,7 +146,7 @@ function Help() {
             {/* FAQ Section */}
             <div className="max-w-3xl mx-auto px-4 lg:px-6 pb-10">
                 <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                    <h2 className="text-xl font-bold text-gray-900 mb-5">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-5 text-center md:text-left">
                         Frequently Asked Questions
                     </h2>
 
@@ -166,12 +166,12 @@ function Help() {
 
 
             {/* Quick Start Guide */}
-            <div className="max-w-3xl mx-auto px-6 pb-10">
+            <div className="max-w-3xl mx-auto px-4 md:px-6 pb-10">
                 <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
-                    <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 text-center">
                         Quick Start Guide
                     </h2>
-                    <p className="text-gray-500 text-[0.85rem] text-center mb-6">
+                    <p className="text-gray-500 text-[0.85rem] md:text-[0.95rem] text-center mb-6">
                         Get started with Blood-Trace in four simple steps
                     </p>
 
@@ -204,18 +204,18 @@ function Help() {
 
             {/* Still Need Help Section */}
             <div className="bg-gray-100 py-12 mb-0">
-                <div className="max-w-3xl mx-auto px-6">
-                    <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">
+                <div className="max-w-3xl mx-auto px-4 md:px-6">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-2">
                         Still Need Help?
                     </h2>
-                    <p className="text-gray-500 text-[0.9rem] text-center mb-10">
+                    <p className="text-gray-500 text-[0.9rem] md:text-base text-center mb-10 px-4">
                         Our support team is here to assist you with any questions or issues.
                     </p>
 
                     <div className="flex justify-center">
 
                         {/* Email Us Card */}
-                        <div className="bg-white rounded-4xl p-6 lg:p-10 flex flex-col items-center gap-6 shadow-xl border border-gray-100 max-w-md w-full transition-all duration-300 mx-4 lg:mx-0">
+                        <div className="bg-white rounded-4xl p-6 lg:p-10 flex flex-col items-center gap-6 shadow-xl border border-gray-100 max-w-md w-[90%] md:w-full transition-all duration-300 mx-auto">
                             <div className="w-24 h-24 rounded-full bg-red-50 flex items-center justify-center shadow-inner">
                                 <Icon
                                     icon="material-symbols:mail-outline"

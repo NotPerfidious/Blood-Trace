@@ -84,8 +84,8 @@ function Register() {
                 </svg>
             </div>
 
-            <div className="relative z-10 w-full max-w-sm bg-white/95 backdrop-blur-md p-6 lg:p-8 border border-red-50 rounded-2xl shadow-2xl mx-4">
-                <h1 className="text-2xl font-bold text-center text-gray-900 mb-6">Create Account</h1>
+            <div className="relative z-10 w-[90%] sm:w-full max-w-sm md:max-w-md bg-white/95 backdrop-blur-md p-6 lg:p-8 border border-red-50 rounded-2xl shadow-2xl mx-auto">
+                <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-6">Create Account</h1>
 
                 {successMsg && (
                     <div className="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded text-sm text-center">

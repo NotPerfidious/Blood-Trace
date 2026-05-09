@@ -88,7 +88,7 @@ function Notifications() {
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
-                                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors flex-1 whitespace-nowrap
+                                className={`px-4 md:px-6 py-2 rounded-full text-[0.85rem] md:text-sm font-medium transition-colors flex-none md:flex-1 whitespace-nowrap
                                     ${isActive ? 'bg-white shadow-sm text-black' : 'text-gray-600 hover:text-black'}
                                 `}
                             >

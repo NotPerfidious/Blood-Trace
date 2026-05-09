@@ -43,7 +43,7 @@ function AdminDashboard() {
         <p className="text-gray-500 text-sm mt-1">Monitor blood donor system and emergency requests</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4 mt-[-20px]">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-4 mt-4 md:mt-[-20px]">
 
         <div className="bg-white p-5 rounded-xl shadow-xs border border-gray-100 flex flex-col">
           <div className="flex justify-between items-start mb-4">

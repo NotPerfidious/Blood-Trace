@@ -119,7 +119,7 @@ function Navbar() {
                         <div className="fixed top-[70px] left-4 right-4 lg:left-auto lg:right-8 bg-white border-l-4 border-l-blood-primary border-y border-r border-gray-200 shadow-xl pr-12 pl-4 py-3 rounded-xl flex items-center gap-3 z-99999 transition-all">
                             <Icon icon="lucide:settings" className="w-5 h-5 text-blood-primary" />
                             <span className="font-semibold text-gray-700 text-sm">
-                                <Link to="/register-donor" className="text-blood-primary hover:underline" onClick={() => setIsDonorPopping(false)}>Register as a donor</Link> to access accessibility settings
+                                <Link to="/register-donor" className="text-blood-primary hover:underline" onClick={() => setIsDonorPopping(false)}>Register as a donor</Link> to create and manage your profile
                             </span>
 
                             <button
@@ -198,8 +198,8 @@ function Navbar() {
                     </NavLink>
 
                     <div className='flex items-center gap-2'>
-                        <NavLink to="/accessibility" onClick={checkIsDonor} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
-                    ${(isAuthenticated && isDonor) ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
+                        <NavLink to="/accessibility" onClick={checkIsAuthenticated} className={({ isActive }) => `flex justify-center items-center w-9 h-9 rounded-md transition-colors  
+                    ${isAuthenticated ? (isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-100')
                                 : 'text-gray-400 cursor-default'}
                     `} >
                             <Icon icon='meteor-icons:gear' className="w-5.5 h-5.5" />
@@ -297,17 +297,15 @@ function Navbar() {
                         {isAuthenticated && (
                             <>
                                 {isDonor && (
-                                    <>
-                                        <NavLink to="/profile" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
-                                            <Icon icon="iconamoon:profile" className="w-5 h-5" />
-                                            <span className="font-semibold text-sm">My Profile</span>
-                                        </NavLink>
-                                        <NavLink to="/accessibility" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
-                                            <Icon icon="meteor-icons:gear" className="w-5 h-5" />
-                                            <span className="font-semibold text-sm">Accessibility Settings</span>
-                                        </NavLink>
-                                    </>
+                                    <NavLink to="/profile" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
+                                        <Icon icon="iconamoon:profile" className="w-5 h-5" />
+                                        <span className="font-semibold text-sm">My Profile</span>
+                                    </NavLink>
                                 )}
+                                <NavLink to="/accessibility" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
+                                    <Icon icon="meteor-icons:gear" className="w-5 h-5" />
+                                    <span className="font-semibold text-sm">Accessibility Settings</span>
+                                </NavLink>
 
                                 {user?.role === 'admin' && (
                                     <NavLink to="/admin" className={({ isActive }) => `flex items-center gap-3 p-3 rounded-xl ${isActive ? 'bg-blood-primary text-white' : 'hover:bg-gray-50 text-gray-700'}`}>
